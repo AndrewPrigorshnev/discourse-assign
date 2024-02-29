@@ -22,12 +22,20 @@ export const AssignedToWidget = ["assigned-to", {
     return this.attach("flat-button", {
       action: "toggleMoreMenu",
       title: "show_more",
-      className: "show-more-actions",
+      className: "show-more-button",
       icon: "ellipsis-h"
     });
   },
 
   toggleMoreMenu() {
-    // not implemented
+    const buttonElement = document.querySelector(".show-more-button")[0];
+
+    this.menu.show(buttonElement, {
+      identifier: "more-menu",
+      content: "Menu Content",
+      // component: AdminPostMenu,
+      extraClassName: "popup-menu",
+      data: {},
+    });
   }
 }];
