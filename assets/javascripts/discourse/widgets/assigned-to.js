@@ -1,6 +1,6 @@
+import { h } from "virtual-dom";
 import { iconNode } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
-import { h } from "virtual-dom";
 
 export const AssignedTo = {
   html(attrs) {
@@ -14,6 +14,15 @@ export const AssignedTo = {
         { attributes: { class: "assigned-to-username", href } },
         assignedToUser ? assignedToUser.username : assignedToGroup.name
       ),
+      this.showMoreButton()
     ]);
   },
+
+  showMoreButton() {
+    return this.attach("flat-button", {
+      title: "show_more",
+      className: "show-more-actions",
+      icon: "ellipsis-h"
+    });
+  }
 };
