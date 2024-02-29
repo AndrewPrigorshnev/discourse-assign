@@ -26,6 +26,10 @@
   .assignee:not(:last-child):after {
     content: ", ";
   }
+
+  .more-button {
+    padding-left: 0.2em;
+  }
 }
 
 .topic-body {
