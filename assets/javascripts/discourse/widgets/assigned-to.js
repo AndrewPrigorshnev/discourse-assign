@@ -14,11 +14,11 @@ export const AssignedTo = {
         { attributes: { class: "assigned-to-username", href } },
         assignedToUser ? assignedToUser.username : assignedToGroup.name
       ),
-      this.showMoreButton()
+      this.moreButton()
     ]);
   },
 
-  showMoreButton() {
+  moreButton() {
     return this.attach("flat-button", {
       title: "show_more",
       className: "show-more-actions",
