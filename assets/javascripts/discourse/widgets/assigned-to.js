@@ -2,7 +2,7 @@ import { h } from "virtual-dom";
 import { iconNode } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
 
-export const AssignedTo = {
+export const AssignedToWidget = ["assigned-to", {
   html(attrs) {
     let { assignedToUser, assignedToGroup, href } = attrs;
 
@@ -30,4 +30,4 @@ export const AssignedTo = {
   toggleMoreMenu() {
     // not implemented
   }
-};
+}];

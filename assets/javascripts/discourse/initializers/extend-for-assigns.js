@@ -13,7 +13,7 @@ import { iconHTML, iconNode } from "discourse-common/lib/icon-library";
 import discourseComputed from "discourse-common/utils/decorators";
 import I18n from "I18n";
 import BulkAssign from "../components/bulk-actions/assign-user";
-import { AssignedTo } from "../widgets/assigned-to";
+import { AssignedToWidget } from "../widgets/assigned-to";
 
 const PLUGIN_ID = "discourse-assign";
 
@@ -647,7 +647,7 @@ function initialize(api) {
     }
   });
 
-  api.createWidget("assigned-to", AssignedTo);
+  api.createWidget(...AssignedToWidget);
 
   api.createWidget("assigned-to-first-post", {
     html(attrs) {
