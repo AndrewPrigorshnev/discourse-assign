@@ -20,9 +20,14 @@ export const AssignedTo = {
 
   moreButton() {
     return this.attach("flat-button", {
+      action: "toggleMoreMenu",
       title: "show_more",
       className: "show-more-actions",
       icon: "ellipsis-h"
     });
+  },
+
+  toggleMoreMenu() {
+    // not implemented
   }
 };
