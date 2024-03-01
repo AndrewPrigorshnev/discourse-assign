@@ -6,10 +6,11 @@ import I18n from "I18n";
 
 export const AssignedToWidget = ["assigned-to", {
   html(attrs) {
+    console.log("((())) attributes",);
     return h("p.assigned-to", [
       this.icon(attrs),
       this.label(attrs),
-      this.moreButton()
+      this.moreButton(attrs)
     ]);
   },
 
@@ -30,7 +31,7 @@ export const AssignedToWidget = ["assigned-to", {
       )];
   },
 
-  moreButton() {
+  moreButton(attrs) {
     return [
       new RenderGlimmer(
         this,
@@ -42,7 +43,7 @@ export const AssignedToWidget = ["assigned-to", {
           </DMenu>
         `,
         {
-          postId: 1,
+          postId: attrs.postId,
         }
       )
     ];
