@@ -1,8 +1,8 @@
+import { hbs } from "ember-cli-htmlbars";
 import { h } from "virtual-dom";
+import RenderGlimmer from "discourse/widgets/render-glimmer";
 import { iconNode } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
-import RenderGlimmer from "discourse/widgets/render-glimmer";
-import { hbs } from "ember-cli-htmlbars";
 
 export const AssignedToWidget = ["assigned-to", {
   html(attrs) {
@@ -25,7 +25,7 @@ export const AssignedToWidget = ["assigned-to", {
         new RenderGlimmer(
           this,
           "div.my-wrapper-class",
-          hbs`<span>Ta Da</span>`,
+          hbs`<button>More</button>`,
         ),
       ];
   }
