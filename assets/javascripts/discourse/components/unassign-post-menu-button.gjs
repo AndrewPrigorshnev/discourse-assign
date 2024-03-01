@@ -3,7 +3,7 @@ import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { on } from "@ember/modifier";
 
-export default class UnassignMenuButton extends Component {
+export default class UnassignPostMenuButton extends Component {
   @service taskActions;
 
   @action
