@@ -45,6 +45,10 @@ export default class TaskActions extends Service {
     });
   }
 
+  unassignPost(postId) {
+    this.unassign(postId, "Post");
+  }
+
   showAssignModal(
     target,
     { isAssigned = false, targetType = "Topic", onSuccess }
