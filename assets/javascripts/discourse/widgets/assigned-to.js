@@ -1,6 +1,8 @@
 import { h } from "virtual-dom";
 import { iconNode } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
+import RenderGlimmer from "discourse/widgets/render-glimmer";
+import { hbs } from "ember-cli-htmlbars";
 
 export const AssignedToWidget = ["assigned-to", {
   html(attrs) {
@@ -19,11 +21,12 @@ export const AssignedToWidget = ["assigned-to", {
   },
 
   moreButton() {
-    return this.attach("flat-button", {
-      action: "toggleMoreMenu",
-      title: "show_more",
-      className: "show-more-button",
-      icon: "ellipsis-h"
-    });
-  },
+      return [
+        new RenderGlimmer(
+          this,
+          "div.my-wrapper-class",
+          hbs`<span>Ta Da</span>`,
+        ),
+      ];
+  }
 }];
