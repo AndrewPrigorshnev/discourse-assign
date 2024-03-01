@@ -6,7 +6,6 @@ import I18n from "I18n";
 
 export const AssignedToWidget = ["assigned-to", {
   html(attrs) {
-    console.log("((())) attributes",);
     return h("p.assigned-to", [
       this.icon(attrs),
       this.label(attrs),
@@ -39,7 +38,7 @@ export const AssignedToWidget = ["assigned-to", {
         hbs`
           <DMenu @inline={{true}} @label="...">
             <Menu::Buttons::UnassignPost @post={{@data.post}} />
-            <Menu::Buttons::EditPostAssignment />
+            <Menu::Buttons::EditPostAssignment @post={{@data.post}} />
           </DMenu>
         `,
         {
