@@ -5,11 +5,15 @@ import { on } from "@ember/modifier";
 
 export default class UnassignMenuButton extends Component {
   @service taskActions;
-  @service router;
 
   @action
   async unassign() {
     console.log("unassigning...");
+    await this.taskActions.unassign(this.args.postId, "Post")
+    // delete this.model.topic.indirectly_assigned_to[this.model.id];
+    // this.appEvents.trigger("post-stream:refresh", {
+    //   id: this.topic.postStream.firstPostId,
+    // });
   }
 
   <template>
