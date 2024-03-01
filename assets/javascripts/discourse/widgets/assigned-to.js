@@ -26,16 +26,4 @@ export const AssignedToWidget = ["assigned-to", {
       icon: "ellipsis-h"
     });
   },
-
-  toggleMoreMenu() {
-    const buttonElement = document.querySelector(".show-more-button")[0];
-
-    this.menu.show(buttonElement, {
-      identifier: "more-menu",
-      content: "Menu Content",
-      // component: AdminPostMenu,
-      extraClassName: "popup-menu",
-      data: {},
-    });
-  }
 }];
