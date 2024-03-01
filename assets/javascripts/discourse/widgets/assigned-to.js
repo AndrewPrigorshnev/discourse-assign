@@ -37,8 +37,8 @@ export const AssignedToWidget = ["assigned-to", {
         "div.my-wrapper-class", // fixme andrei drop or correct css class
         hbs`
           <DMenu @inline={{true}} @label="...">
-            <UnassignPostMenuButton @postId={{@data.postId}} />
-            <EditAssignmentMenuButton />
+            <Menu::Buttons::UnassignPost @postId={{@data.postId}} />
+            <Menu::Buttons::EditPostAssignment />
           </DMenu>
         `,
         {
