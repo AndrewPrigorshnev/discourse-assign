@@ -24,8 +24,12 @@ export const AssignedToWidget = ["assigned-to", {
       return [
         new RenderGlimmer(
           this,
-          "div.my-wrapper-class",
-          hbs`<button>More</button>`,
+          "div.my-wrapper-class", // fixme andrei drop or correct css class
+          hbs`<DMenu @inline={{true}} @label="...">
+            <button>Unassign</button>
+            <button>Edit assignment...</button>
+          </DMenu>
+          `,
         ),
       ];
   }
