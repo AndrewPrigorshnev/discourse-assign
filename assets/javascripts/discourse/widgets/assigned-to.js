@@ -6,31 +6,42 @@ import I18n from "I18n";
 
 export const AssignedToWidget = ["assigned-to", {
   html(attrs) {
-    let { assignedToUser, assignedToGroup, href } = attrs;
-
     return h("p.assigned-to", [
-      assignedToUser ? iconNode("user-plus") : iconNode("group-plus"),
-      h("span.assign-text", I18n.t("discourse_assign.assigned_to")),
-      h(
-        "a",
-        { attributes: { class: "assigned-to-username", href } },
-        assignedToUser ? assignedToUser.username : assignedToGroup.name
-      ),
+      this.icon(attrs),
+      this.label(attrs),
       this.moreButton()
     ]);
   },
 
+  icon(attrs) {
+    return attrs.assignedToUser ?
+      iconNode("user-plus")
+      : iconNode("group-plus");
+  },
+
+  label(attrs) {
+    let { assignedToUser, assignedToGroup, href } = attrs;
+
+    return [h("span.assign-text", I18n.t("discourse_assign.assigned_to")),
+      h(
+        "a",
+        { attributes: { class: "assigned-to-username", href } },
+        assignedToUser ? assignedToUser.username : assignedToGroup.name
+      )];
+  },
+
   moreButton() {
-      return [
-        new RenderGlimmer(
-          this,
-          "div.my-wrapper-class", // fixme andrei drop or correct css class
-          hbs`<DMenu @inline={{true}} @label="...">
+    return [
+      new RenderGlimmer(
+        this,
+        "div.my-wrapper-class", // fixme andrei drop or correct css class
+        hbs`
+          <DMenu @inline={{true}} @label="...">
             <UnassignMenuButton />
             <EditAssignmentMenuButton />
           </DMenu>
-          `,
-        ),
-      ];
-  },
+        `
+      )
+    ];
+  }
 }];
