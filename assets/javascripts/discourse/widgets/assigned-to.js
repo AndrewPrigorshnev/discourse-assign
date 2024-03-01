@@ -26,11 +26,11 @@ export const AssignedToWidget = ["assigned-to", {
           this,
           "div.my-wrapper-class", // fixme andrei drop or correct css class
           hbs`<DMenu @inline={{true}} @label="...">
-            <button>Unassign</button>
-            <button>Edit assignment...</button>
+            <UnassignMenuButton />
+            <EditAssignmentMenuButton />
           </DMenu>
           `,
         ),
       ];
-  }
+  },
 }];
