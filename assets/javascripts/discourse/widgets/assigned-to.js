@@ -34,7 +34,7 @@ export const AssignedToWidget = ["assigned-to", {
     return [
       new RenderGlimmer(
         this,
-        "div.my-wrapper-class", // fixme andrei drop or correct css class
+        "span",
         hbs`
           <DMenu @inline={{true}} @label="...">
             <Menu::Buttons::UnassignPost @post={{@data.post}} />
