@@ -8,12 +8,9 @@ export default class UnassignPost extends Component {
 
   @action
   async unassign() {
-    console.log("unassigning...");
-    await this.taskActions.unassignPost(this.args.postId);
-    // delete this.model.topic.indirectly_assigned_to[this.model.id];
-    // this.appEvents.trigger("post-stream:refresh", {
-    //   id: this.topic.postStream.firstPostId,
-    // });
+    const post = this.args.post;
+    await this.taskActions.unassignPost(post.id);
+    delete post.topic.indirectly_assigned_to[post.id];
   }
 
   <template>
