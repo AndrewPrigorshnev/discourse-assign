@@ -1,3 +1,4 @@
+import { getOwner } from "@ember/application";
 import { hbs } from "ember-cli-htmlbars";
 import { h } from "virtual-dom";
 import RenderGlimmer from "discourse/widgets/render-glimmer";
@@ -39,12 +40,21 @@ export const AssignedToWidget = ["assigned-to", {
           <DMenu @inline={{true}} @label="...">
             <Menu::Buttons::UnassignPost @post={{@data.post}} />
             <Menu::Buttons::EditPostAssignment @post={{@data.post}} />
+            <button {{on "click" @data.editAssignment}}>Edit assignment...</button>
           </DMenu>
         `,
         {
           post: this.attrs.post,
+          editAssignment: () => this.editAssignment()
         }
       )
     ];
   },
+
+  editAssignment() {
+    const taskActions = getOwner(this).lookup("service:task-actions");
+    taskActions.showAssignModal(this.attrs.post, {
+      targetType: "Post",
+    });
+  }
 }];
