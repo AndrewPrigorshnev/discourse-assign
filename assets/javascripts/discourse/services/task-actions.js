@@ -46,7 +46,7 @@ export default class TaskActions extends Service {
   }
 
   unassignPost(postId) {
-    this.unassign(postId, "Post");
+    return this.unassign(postId, "Post");
   }
 
   showAssignModal(

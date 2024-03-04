@@ -38,13 +38,13 @@ export const AssignedToWidget = ["assigned-to", {
         "span",
         hbs`
           <DMenu @inline={{true}} @label="...">
-            <Menu::Buttons::UnassignPost @post={{@data.post}} />
-            <Menu::Buttons::EditPostAssignment @post={{@data.post}} />
+            <button {{on "click" @data.unassign}}>Unassign</button>
             <button {{on "click" @data.editAssignment}}>Edit assignment...</button>
           </DMenu>
         `,
         {
           post: this.attrs.post,
+          unassign: () => this.unassign(),
           editAssignment: () => this.editAssignment()
         }
       )
@@ -56,5 +56,11 @@ export const AssignedToWidget = ["assigned-to", {
     taskActions.showAssignModal(this.attrs.post, {
       targetType: "Post",
     });
+  },
+
+  unassign() {
+    const taskActions = getOwner(this).lookup("service:task-actions");
+    const post = this.attrs.post;
+    taskActions.unassignPost(post.id).then(() => delete post.topic.indirectly_assigned_to[post.id]);
   }
 }];
