@@ -67,6 +67,10 @@ export default class TaskActions extends Service {
     });
   }
 
+  showAssignPostModal(post) {
+    return this.showAssignModal(post, { targetType: "Post", });
+  }
+
   reassignUserToTopic(user, target, targetType = "Topic") {
     return ajax("/assign/assign", {
       type: "PUT",

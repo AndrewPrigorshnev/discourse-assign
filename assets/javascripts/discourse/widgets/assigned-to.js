@@ -33,6 +33,7 @@ export const AssignedToWidget = ["assigned-to", {
 
   moreButton() {
     const taskActions = getOwner(this).lookup("service:task-actions");
+    const post = this.attrs.post;
 
     return [
       new RenderGlimmer(
@@ -45,17 +46,10 @@ export const AssignedToWidget = ["assigned-to", {
           </DMenu>
         `,
         {
-          unassign: () => taskActions.unassignPost(this.attrs.post),
-          editAssignment: () => this.editAssignment()
+          unassign: () => taskActions.unassignPost(post),
+          editAssignment: () => taskActions.showAssignPostModal(post)
         }
       )
     ];
   },
-
-  editAssignment() {
-    const taskActions = getOwner(this).lookup("service:task-actions");
-    taskActions.showAssignModal(this.attrs.post, {
-      targetType: "Post",
-    });
-  }
 }];
