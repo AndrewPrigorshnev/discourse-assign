@@ -51,12 +51,16 @@ export const AssignedToWidget = ["assigned-to", {
               <div class="popup-menu">
                 <ul>
                   <li>
-                    <DButton class="btn-icon-text popup-menu-btn" {{on "click" @data.unassign}}>
+                    <DButton class="btn-icon-text popup-menu-btn"
+                             @icon="user-plus"
+                             {{on "click" @data.unassign}}>
                       Unassign
                     </DButton>
                   </li>
                   <li>
-                    <DButton class="btn-icon-text popup-menu-btn" {{on "click" @data.editAssignment}}>
+                    <DButton class="btn-icon-text popup-menu-btn"
+                             @icon="group-plus"
+                             {{on "click" @data.editAssignment}}>
                       Edit assignment...
                     </DButton>
                   </li>
