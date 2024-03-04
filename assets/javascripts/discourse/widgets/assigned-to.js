@@ -40,11 +40,9 @@ export const AssignedToWidget = ["assigned-to", {
         this,
         "span",
         hbs`
-          <DMenu class="btn-flat">
+          <DMenu class="btn-flat more-button">
             <:trigger>
-              <span>
-                {{d-icon "ellipsis-h"}}
-              </span>
+              {{d-icon "ellipsis-h"}}
             </:trigger>
             <:content>
               <div class="popup-menu">
