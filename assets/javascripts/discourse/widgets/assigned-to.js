@@ -40,9 +40,14 @@ export const AssignedToWidget = ["assigned-to", {
         this,
         "span",
         hbs`
-          <DMenu @inline={{true}} @label="...">
-            <button {{on "click" @data.unassign}}>Unassign</button>
-            <button {{on "click" @data.editAssignment}}>Edit assignment...</button>
+          <DMenu @inline={{true}}>
+            <:trigger>
+              ...
+            </:trigger>
+            <:content>
+              <button class="btn-default popup-menu-button" {{on "click" @data.unassign}}>Unassign</button>
+              <button class="btn-default popup-menu-button" {{on "click" @data.editAssignment}}>Edit assignment...</button>
+            </:content>
           </DMenu>
         `,
         {
