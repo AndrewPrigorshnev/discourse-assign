@@ -45,8 +45,9 @@ export default class TaskActions extends Service {
     });
   }
 
-  unassignPost(postId) {
-    return this.unassign(postId, "Post");
+  async unassignPost(post) {
+    await this.unassign(post.id, "Post");
+    delete post.topic.indirectly_assigned_to[post.id];
   }
 
   showAssignModal(
