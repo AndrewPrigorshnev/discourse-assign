@@ -5,22 +5,22 @@ import { iconNode } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
 
 export const AssignedToWidget = ["assigned-to", {
-  html(attrs) {
+  html() {
     return h("p.assigned-to", [
-      this.icon(attrs),
-      this.label(attrs),
-      this.moreButton(attrs)
+      this.icon(),
+      this.label(),
+      this.moreButton()
     ]);
   },
 
-  icon(attrs) {
-    return attrs.assignedToUser ?
+  icon() {
+    return this.attrs.assignedToUser ?
       iconNode("user-plus")
       : iconNode("group-plus");
   },
 
-  label(attrs) {
-    let { assignedToUser, assignedToGroup, href } = attrs;
+  label() {
+    let { assignedToUser, assignedToGroup, href } = this.attrs;
 
     return [h("span.assign-text", I18n.t("discourse_assign.assigned_to")),
       h(
@@ -30,7 +30,7 @@ export const AssignedToWidget = ["assigned-to", {
       )];
   },
 
-  moreButton(attrs) {
+  moreButton() {
     return [
       new RenderGlimmer(
         this,
@@ -42,9 +42,9 @@ export const AssignedToWidget = ["assigned-to", {
           </DMenu>
         `,
         {
-          post: attrs.post,
+          post: this.attrs.post,
         }
       )
     ];
-  }
+  },
 }];
