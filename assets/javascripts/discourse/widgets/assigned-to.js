@@ -48,12 +48,20 @@ export const AssignedToWidget = ["assigned-to", {
               />
             </:trigger>
             <:content>
-              <DButton class="btn btn-icon-text btn popup-menu-btn" {{on "click" @data.unassign}}>
-                Unassign
-              </DButton>
-              <DButton class="btn btn-icon-text btn popup-menu-btn" {{on "click" @data.editAssignment}}>
-                Edit assignment...
-              </DButton>
+              <div class="popup-menu">
+                <ul>
+                  <li>
+                    <DButton class="btn-icon-text popup-menu-btn" {{on "click" @data.unassign}}>
+                      Unassign
+                    </DButton>
+                  </li>
+                  <li>
+                    <DButton class="btn-icon-text popup-menu-btn" {{on "click" @data.editAssignment}}>
+                      Edit assignment...
+                    </DButton>
+                  </li>
+                </ul>
+              </div>
             </:content>
           </DMenu>
         `,
