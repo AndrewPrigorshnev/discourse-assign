@@ -40,9 +40,12 @@ export const AssignedToWidget = ["assigned-to", {
         this,
         "span",
         hbs`
-          <DMenu @inline={{true}}>
+          <DMenu>
             <:trigger>
-              ...
+              <DButton
+                @icon="ellipsis-h"
+                class="widget-button btn-flat btn-icon show-more-actions no-text"
+              />
             </:trigger>
             <:content>
               <button class="btn-default popup-menu-button" {{on "click" @data.unassign}}>Unassign</button>
