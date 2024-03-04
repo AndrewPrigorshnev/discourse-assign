@@ -40,12 +40,11 @@ export const AssignedToWidget = ["assigned-to", {
         this,
         "span",
         hbs`
-          <DMenu>
+          <DMenu class="btn-flat">
             <:trigger>
-              <DButton
-                @icon="ellipsis-h"
-                class="widget-button btn-flat btn-icon show-more-actions no-text"
-              />
+              <span>
+                {{d-icon "ellipsis-h"}}
+              </span>
             </:trigger>
             <:content>
               <div class="popup-menu">
