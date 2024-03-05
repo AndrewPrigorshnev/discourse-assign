@@ -26,14 +26,15 @@ function topicWithAssignedPostResponse() {
   return topic;
 }
 
-const buttons = {
-  more: ".post-stream .topic-post .more-button",
+const popupMenuTrigger = ".post-stream .topic-post .more-button";
+const popupMenu = {
   unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
   editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus"
 };
 
+
 acceptance(
-  "Discourse Assign | Ellipsis menu on assigned posts",
+  "Discourse Assign | Popup menu on assigned posts",
   function (needs) {
     needs.user();
     needs.settings({
@@ -48,6 +49,10 @@ acceptance(
       server.get("/t/44.json", () => {
         return helper.response(topicWithAssignedPostResponse());
       });
+
+      server.put("/assign/unassign", (request) => {
+        return helper.response({ success: true });
+      });
     });
 
     needs.hooks.beforeEach(() => {
@@ -56,15 +61,15 @@ acceptance(
 
     test("Unassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
-      await click(buttons.more);
-      await click(buttons.unassign);
+      await click(popupMenuTrigger);
+      await click(popupMenu.unassign);
       // todo assert post is not assigned anymore
     });
 
     test("Reassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
-      await click(buttons.more);
-      await click(buttons.editAssignment);
+      await click(popupMenuTrigger);
+      await click(popupMenu.editAssignment);
 
       // todo click Unassign
       // todo assert post is not assigned anymore
