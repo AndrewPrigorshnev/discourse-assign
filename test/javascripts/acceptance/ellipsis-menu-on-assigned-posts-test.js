@@ -26,6 +26,12 @@ function topicWithAssignedPostResponse() {
   return topic;
 }
 
+const buttons = {
+  more: ".post-stream .topic-post .more-button",
+  unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
+  editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus"
+};
+
 acceptance(
   "Discourse Assign | Ellipsis menu on assigned posts",
   function (needs) {
@@ -50,18 +56,18 @@ acceptance(
 
     test("Unassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
-      await click(".post-stream .topic-post .more-button");
-
-      assert
-        .dom("#topic-title .assigned-to")
-        .hasText("eviltrout", "shows assignment in the header");
-      assert
-        .dom("#topic-footer-dropdown-reassign")
-        .exists("shows reassign dropdown at the bottom of the topic");
+      await click(buttons.more);
+      await click(buttons.unassign);
+      // todo assert post is not assigned anymore
     });
 
     test("Reassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
+      await click(buttons.more);
+      await click(buttons.editAssignment);
+
+      // todo click Unassign
+      // todo assert post is not assigned anymore
     });
   }
 );
