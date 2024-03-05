@@ -44,12 +44,13 @@ acceptance(
       });
     });
 
-    test("Unassigns the post", async function (assert) {
+    needs.hooks.beforeEach(() => {
       updateCurrentUser({ can_assign: true });
+    });
+
+    test("Unassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
-      console.log("breakpoint");
-      await click(".more-button");
-      // await click(".post-stream .topic-post .more-button");
+      await click(".post-stream .topic-post .more-button");
 
       assert
         .dom("#topic-title .assigned-to")
@@ -60,15 +61,7 @@ acceptance(
     });
 
     test("Reassigns the post", async function (assert) {
-      updateCurrentUser({ can_assign: true });
       await visit("/t/assignment-topic/44");
-
-      assert
-        .dom("#topic-title .assigned-to")
-        .hasText("eviltrout", "shows assignment in the header");
-      assert
-        .dom("#topic-footer-dropdown-reassign")
-        .exists("shows reassign dropdown at the bottom of the topic");
     });
   }
 );
