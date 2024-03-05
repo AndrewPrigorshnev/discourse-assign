@@ -26,7 +26,7 @@ function topicWithAssignedPostResponse() {
   return topic;
 }
 
-const popupMenuTrigger = ".post-stream .topic-post .more-button";
+const ellipsisButton = ".post-stream .topic-post .more-button";
 const popupMenu = {
   unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
   editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus"
@@ -61,14 +61,14 @@ acceptance(
 
     test("Unassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
-      await click(popupMenuTrigger);
+      await click(ellipsisButton);
       await click(popupMenu.unassign);
       // todo assert post is not assigned anymore
     });
 
     test("Reassigns the post", async function (assert) {
       await visit("/t/assignment-topic/44");
-      await click(popupMenuTrigger);
+      await click(ellipsisButton);
       await click(popupMenu.editAssignment);
 
       // todo click Unassign
