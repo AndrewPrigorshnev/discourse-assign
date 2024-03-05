@@ -40,30 +40,25 @@ export const AssignedToWidget = [
           this,
           "span",
           hbs`
-            <DMenu class="btn-flat more-button">
-                <:trigger>
-                    {{d-icon "ellipsis-h"}}
-                </:trigger>
-                <:content>
-                    <div class="popup-menu">
-                        <ul>
-                            <li>
-                                <DButton @action={{@data.unassign}}
-                                         @icon="user-plus"
-                                         @label="discourse_assign.unassign.title"
-                                         class="popup-menu-btn" />
-                            </li>
-                            <li>
-                                <DButton @action={{@data.editAssignment}}
-                                         @icon="group-plus"
-                                         @label="discourse_assign.reassign.title_w_ellipsis"
-                                         class="popup-menu-btn" />
-                            </li>
-                        </ul>
-                    </div>
-                </:content>
-            </DMenu>
-        `,
+              <DMenu @icon="ellipsis-h" class="btn-flat more-button">
+                  <div class="popup-menu">
+                      <ul>
+                          <li>
+                              <DButton @action={{@data.unassign}}
+                                       @icon="user-plus"
+                                       @label="discourse_assign.unassign.title"
+                                       class="popup-menu-btn" />
+                          </li>
+                          <li>
+                              <DButton @action={{@data.editAssignment}}
+                                       @icon="group-plus"
+                                       @label="discourse_assign.reassign.title_w_ellipsis"
+                                       class="popup-menu-btn" />
+                          </li>
+                      </ul>
+                  </div>
+              </DMenu>
+          `,
           {
             unassign: () => taskActions.unassignPost(post),
             editAssignment: () => taskActions.showAssignPostModal(post),
