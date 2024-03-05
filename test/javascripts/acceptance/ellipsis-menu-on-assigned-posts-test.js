@@ -47,7 +47,10 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
       helper.response(topicWithAssignedPostResponse())
     );
 
-    server.put("/assign/unassign", () => helper.response({ success: true }));
+    server.put("/assign/unassign", () => {
+      console.log("/assign/unassign has been called");
+      return helper.response({ success: true });
+    });
   });
 
   needs.hooks.beforeEach(() => {
@@ -58,7 +61,9 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
     await visit("/t/assignment-topic/44");
     await click(ellipsisButton);
     await click(popupMenu.unassign);
-    // todo assert post is not assigned anymore
+    assert
+      .dom(".post-stream .topic-post .assigned-to")
+      .exists();
   });
 
   test("Reassigns the post", async function (assert) {
