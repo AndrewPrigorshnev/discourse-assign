@@ -8,27 +8,22 @@ import {
 } from "discourse/tests/helpers/qunit-helpers";
 import { cloneJSON } from "discourse-common/lib/object";
 
-function assignCurrentUserToTopic(needs) {
-  needs.pretender((server, helper) => {
-    server.get("/t/44.json", () => {
-      const username = "eviltrout";
-      const topic = cloneJSON(topicFixtures["/t/28830/1.json"]);
-      const secondPost = topic.post_stream.posts[1];
+function topicWithAssignedPostResponse() {
+  const username = "eviltrout";
+  const topic = cloneJSON(topicFixtures["/t/28830/1.json"]);
+  const secondPost = topic.post_stream.posts[1];
 
-      topic["indirectly_assigned_to"] = {
-        [secondPost.id]: {
-          assigned_to: {
-            username,
-          },
-          post_number: 1,
-        },
-      };
+  topic["indirectly_assigned_to"] = {
+    [secondPost.id]: {
+      assigned_to: {
+        username,
+      },
+      post_number: 1,
+    },
+  };
+  secondPost["assigned_to_user"] = {username};
 
-      secondPost["assigned_to_user"] = {username,};
-
-      return helper.response(topic);
-    });
-  });
+  return topic;
 }
 
 acceptance(
@@ -43,7 +38,11 @@ acceptance(
       enable_assign_status: true,
     });
 
-    assignCurrentUserToTopic(needs);
+    needs.pretender((server, helper) => {
+      server.get("/t/44.json", () => {
+        return helper.response(topicWithAssignedPostResponse());
+      });
+    });
 
     test("Unassigns the post", async function (assert) {
       updateCurrentUser({ can_assign: true });
