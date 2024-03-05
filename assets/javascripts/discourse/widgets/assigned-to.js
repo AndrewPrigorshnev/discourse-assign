@@ -5,70 +5,71 @@ import RenderGlimmer from "discourse/widgets/render-glimmer";
 import { iconNode } from "discourse-common/lib/icon-library";
 import I18n from "I18n";
 
-export const AssignedToWidget = ["assigned-to", {
-  html() {
-    return h("p.assigned-to", [
-      this.icon(),
-      this.label(),
-      this.moreButton()
-    ]);
-  },
+export const AssignedToWidget = [
+  "assigned-to",
+  {
+    html() {
+      return h("p.assigned-to", [this.icon(), this.label(), this.moreButton()]);
+    },
 
-  icon() {
-    return this.attrs.assignedToUser ?
-      iconNode("user-plus")
-      : iconNode("group-plus");
-  },
+    icon() {
+      return this.attrs.assignedToUser
+        ? iconNode("user-plus")
+        : iconNode("group-plus");
+    },
 
-  label() {
-    let { assignedToUser, assignedToGroup, href } = this.attrs;
+    label() {
+      let { assignedToUser, assignedToGroup, href } = this.attrs;
 
-    return [h("span.assign-text", I18n.t("discourse_assign.assigned_to")),
-      h(
-        "a",
-        { attributes: { class: "assigned-to-username", href } },
-        assignedToUser ? assignedToUser.username : assignedToGroup.name
-      )];
-  },
+      return [
+        h("span.assign-text", I18n.t("discourse_assign.assigned_to")),
+        h(
+          "a",
+          { attributes: { class: "assigned-to-username", href } },
+          assignedToUser ? assignedToUser.username : assignedToGroup.name
+        ),
+      ];
+    },
 
-  moreButton() {
-    const taskActions = getOwner(this).lookup("service:task-actions");
-    const post = this.attrs.post;
+    moreButton() {
+      const taskActions = getOwner(this).lookup("service:task-actions");
+      const post = this.attrs.post;
 
-    return [
-      new RenderGlimmer(
-        this,
-        "span",
-        hbs`
-          <DMenu class="btn-flat more-button">
-            <:trigger>
-              {{d-icon "ellipsis-h"}}
-            </:trigger>
-            <:content>
-              <div class="popup-menu">
-                <ul>
-                  <li>
-                    <DButton @action={{@data.unassign}}
-                             @icon="user-plus"
-                             @label="discourse_assign.unassign.title"
-                             class="popup-menu-btn" />
-                  </li>
-                  <li>
-                    <DButton @action={{@data.editAssignment}}
-                             @icon="group-plus"
-                             @label="discourse_assign.reassign.title_w_ellipsis"
-                             class="popup-menu-btn" />
-                  </li>
-                </ul>
-              </div>
-            </:content>
-          </DMenu>
+      return [
+        new RenderGlimmer(
+          this,
+          "span",
+          hbs`
+            <DMenu class="btn-flat more-button">
+                <:trigger>
+                    {{d-icon "ellipsis-h"}}
+                </:trigger>
+                <:content>
+                    <div class="popup-menu">
+                        <ul>
+                            <li>
+                                <DButton @action={{@data.unassign}}
+                                         @icon="user-plus"
+                                         @label="discourse_assign.unassign.title"
+                                         class="popup-menu-btn" />
+                            </li>
+                            <li>
+                                <DButton @action={{@data.editAssignment}}
+                                         @icon="group-plus"
+                                         @label="discourse_assign.reassign.title_w_ellipsis"
+                                         class="popup-menu-btn" />
+                            </li>
+                        </ul>
+                    </div>
+                </:content>
+            </DMenu>
         `,
-        {
-          unassign: () => taskActions.unassignPost(post),
-          editAssignment: () => taskActions.showAssignPostModal(post)
-        }
-      )
-    ];
+          {
+            unassign: () => taskActions.unassignPost(post),
+            editAssignment: () => taskActions.showAssignPostModal(post),
+          }
+        ),
+      ];
+    },
   },
-}];
+];

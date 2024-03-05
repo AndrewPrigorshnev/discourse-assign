@@ -834,7 +834,7 @@ function initialize(api) {
           assignedToUser,
           assignedToGroup,
           href,
-          post: postModel
+          post: postModel,
         });
       }
     }

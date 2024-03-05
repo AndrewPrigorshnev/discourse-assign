@@ -68,7 +68,7 @@ export default class TaskActions extends Service {
   }
 
   showAssignPostModal(post) {
-    return this.showAssignModal(post, { targetType: "Post", });
+    return this.showAssignModal(post, { targetType: "Post" });
   }
 
   reassignUserToTopic(user, target, targetType = "Topic") {
