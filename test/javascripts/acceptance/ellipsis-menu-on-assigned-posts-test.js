@@ -21,7 +21,7 @@ function topicWithAssignedPostResponse() {
       post_number: 1,
     },
   };
-  secondPost["assigned_to_user"] = {username};
+  secondPost["assigned_to_user"] = { username };
 
   return topic;
 }
@@ -29,50 +29,42 @@ function topicWithAssignedPostResponse() {
 const ellipsisButton = ".post-stream .topic-post .more-button";
 const popupMenu = {
   unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
-  editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus"
+  editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus",
 };
 
+acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
+  needs.user();
+  needs.settings({
+    assign_enabled: true,
+    tagging_enabled: true,
+    assigns_user_url_path: "/",
+    assigns_public: true,
+    enable_assign_status: true,
+  });
 
-acceptance(
-  "Discourse Assign | Popup menu on assigned posts",
-  function (needs) {
-    needs.user();
-    needs.settings({
-      assign_enabled: true,
-      tagging_enabled: true,
-      assigns_user_url_path: "/",
-      assigns_public: true,
-      enable_assign_status: true,
-    });
+  needs.pretender((server, helper) => {
+    server.get("/t/44.json", () =>
+      helper.response(topicWithAssignedPostResponse())
+    );
 
-    needs.pretender((server, helper) => {
-      server.get("/t/44.json", () => {
-        return helper.response(topicWithAssignedPostResponse());
-      });
+    server.put("/assign/unassign", () => helper.response({ success: true }));
+  });
 
-      server.put("/assign/unassign", (request) => {
-        return helper.response({ success: true });
-      });
-    });
+  needs.hooks.beforeEach(() => {
+    updateCurrentUser({ can_assign: true });
+  });
 
-    needs.hooks.beforeEach(() => {
-      updateCurrentUser({ can_assign: true });
-    });
+  test("Unassigns the post", async function (assert) {
+    await visit("/t/assignment-topic/44");
+    await click(ellipsisButton);
+    await click(popupMenu.unassign);
+    // todo assert post is not assigned anymore
+  });
 
-    test("Unassigns the post", async function (assert) {
-      await visit("/t/assignment-topic/44");
-      await click(ellipsisButton);
-      await click(popupMenu.unassign);
-      // todo assert post is not assigned anymore
-    });
-
-    test("Reassigns the post", async function (assert) {
-      await visit("/t/assignment-topic/44");
-      await click(ellipsisButton);
-      await click(popupMenu.editAssignment);
-
-      // todo click Unassign
-      // todo assert post is not assigned anymore
-    });
-  }
-);
+  test("Reassigns the post", async function (assert) {
+    await visit("/t/assignment-topic/44");
+    await click(ellipsisButton);
+    await click(popupMenu.editAssignment);
+    // todo assert post is not assigned anymore
+  });
+});
