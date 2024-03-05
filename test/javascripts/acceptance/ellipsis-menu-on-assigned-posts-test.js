@@ -12,11 +12,11 @@ function assignCurrentUserToTopic(needs) {
   needs.pretender((server, helper) => {
     server.get("/t/44.json", () => {
       const username = "eviltrout";
-
       const topic = cloneJSON(topicFixtures["/t/28830/1.json"]);
       const secondPost = topic.post_stream.posts[1];
+
       topic["indirectly_assigned_to"] = {
-        118597: {
+        [secondPost.id]: {
           assigned_to: {
             username,
           },
@@ -24,12 +24,7 @@ function assignCurrentUserToTopic(needs) {
         },
       };
 
-      secondPost["assigned_to_user"] = {
-        username,
-        name: "Robin Ward",
-        avatar_template:
-          "/letter_avatar/eviltrout/{size}/3_f9720745f5ce6dfc2b5641fca999d934.png",
-      };
+      secondPost["assigned_to_user"] = {username,};
 
       return helper.response(topic);
     });
