@@ -35,21 +35,18 @@ describe "Assign | Assigned post popup menu", type: :system do
   end
 
   it "unassigns the post" do
-    # await visit("/t/assignment-topic/44");
-    # await click(ellipsisButton);
-    # await click(popupMenu.unassign);
-    # assert
-    #   .dom(".popup-menu")
-    #   .doesNotExist("Popup menu has been closed");
-    # assert
-    #   .dom(".post-stream .topic-post .assigned-to")
-    #   .exists();
+    visit "/t/#{topic.id}"
+    # post.click_ellipsis_button
+    # post.click_unassign
+    # expect(popup_menu).to be_closed
+    # expect(post).to not_have_assigned
   end
 
   it "reassigns the post" do
-    # await visit("/t/assignment-topic/44");
-    # await click(ellipsisButton);
-    # await click(popupMenu.editAssignment);
-    # // todo assert post is not assigned anymore
+    visit "/t/#{topic.id}"
+    # post.click_ellipsis_button
+    # post.click_unassign
+    # expect(popup_menu).to be_closed
+    # expect(post).to not_have_assigned
   end
 end
