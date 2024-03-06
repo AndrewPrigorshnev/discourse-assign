@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 module PageObjects
-  module Pages
-    class Topic < PageObjects::Pages::Base
+  module PopupMenus
+    class Post < PageObjects::Pages::Base
+
+
+
+
+
+
+
       def click_assign_topic
         find("#topic-footer-button-assign").click
       end
@@ -19,11 +26,6 @@ module PageObjects
 
       def has_assigned?(args)
         has_assignment_action?(action: "assigned", **args)
-      end
-
-      def has_ellipsis_button_on_post?(args)
-        puts "((((()))))"
-        true
       end
 
       def has_unassigned?(args)
