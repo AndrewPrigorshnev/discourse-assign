@@ -58,15 +58,15 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
       const post = topic.post_stream.posts[1];
 
       console.log("/assign/unassign has been called");
-      publishToMessageBus("/staff/topic-assignment", {
-        type: "unassigned",
-        topic_id: topic.id,
-        post_id: post.id,
-        post_number: 2,
-        assigned_type: "User",
-        assignment_note: null,
-        assignment_status: null,
-      });
+      // publishToMessageBus("/staff/topic-assignment", {
+      //   type: "unassigned",
+      //   topic_id: topic.id,
+      //   post_id: post.id,
+      //   post_number: 2,
+      //   assigned_type: "User",
+      //   assignment_note: null,
+      //   assignment_status: null,
+      // });
 
       return helper.response({ success: true });
     });
@@ -83,10 +83,10 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
   test("Unassigns the post", async function (assert) {
     const topic = topicWithAssignedPostResponse();
     const post = topic.post_stream.posts[1];
-    
+
     await visit("/t/assignment-topic/44");
+
     await click(ellipsisButton);
-    debugger;
     await click(popupMenu.unassign);
     await publishToMessageBus("/staff/topic-assignment", {
       type: "unassigned",
@@ -98,9 +98,10 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
       assignment_status: null,
     });
 
-    await settled();
-    debugger;
-    assert.dom(".post-stream .topic-post .assigned-to").exists();
+    assert.dom(".popup-menu").doesNotExist("The popup menu is closed");
+    assert
+      .dom(".post-stream .topic-post .assigned-to")
+      .doesNotExist("The post is unassigned");
   });
 
   test("Reassigns the post", async function (assert) {
