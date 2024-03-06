@@ -33,14 +33,16 @@ export const AssignedToWidget = [
 
     moreButton() {
       const taskActions = getOwner(this).lookup("service:task-actions");
+      const menu = getOwner(this).lookup("service:menu");
       const post = this.attrs.post;
+      const untr = ["click"];
 
       return [
         new RenderGlimmer(
           this,
           "span",
           hbs`
-              <DMenu @icon="ellipsis-h" class="btn-flat more-button">
+              <DMenu @icon="ellipsis-h" class="btn-flat more-button" @untriggers={{@data.untr}}>
                   <div class="popup-menu">
                       <ul>
                           <li>
@@ -55,6 +57,12 @@ export const AssignedToWidget = [
                                        @label="discourse_assign.reassign.title_w_ellipsis"
                                        class="popup-menu-btn" />
                           </li>
+                        <li>
+                          <DButton @action={{@data.testAction}}
+                                   @icon="heart"
+                                   @label="discourse_assign.reassign.title_w_ellipsis"
+                                   class="popup-menu-btn" />
+                        </li>
                       </ul>
                   </div>
               </DMenu>
@@ -62,6 +70,8 @@ export const AssignedToWidget = [
           {
             unassign: () => taskActions.unassignPost(post),
             editAssignment: () => taskActions.showAssignPostModal(post),
+            testAction:() => menu.close(),
+            untr
           }
         ),
       ];

@@ -1,9 +1,10 @@
-import { click, visit } from "@ember/test-helpers";
+import { click, settled, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import topicFixtures from "discourse/tests/fixtures/topic";
 import {
   acceptance,
   query,
+  publishToMessageBus,
   updateCurrentUser,
 } from "discourse/tests/helpers/qunit-helpers";
 import { cloneJSON } from "discourse-common/lib/object";
@@ -53,12 +54,25 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
     });
 
     server.put("/assign/unassign", () => {
+      const topic = topicWithAssignedPostResponse();
+      const post = topic.post_stream.posts[1];
+
       console.log("/assign/unassign has been called");
+      publishToMessageBus("/staff/topic-assignment", {
+        type: "unassigned",
+        topic_id: topic.id,
+        post_id: post.id,
+        post_number: 2,
+        assigned_type: "User",
+        assignment_note: null,
+        assignment_status: null,
+      });
+
       return helper.response({ success: true });
     });
 
     server.get("/assign/suggestions", () =>
-      helper.response({suggestions: []})
+      helper.response({ suggestions: [] })
     );
   });
 
@@ -67,12 +81,26 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
   });
 
   test("Unassigns the post", async function (assert) {
+    const topic = topicWithAssignedPostResponse();
+    const post = topic.post_stream.posts[1];
+    
     await visit("/t/assignment-topic/44");
     await click(ellipsisButton);
+    debugger;
     await click(popupMenu.unassign);
-    assert
-      .dom(".post-stream .topic-post .assigned-to")
-      .exists();
+    await publishToMessageBus("/staff/topic-assignment", {
+      type: "unassigned",
+      topic_id: topic.id,
+      post_id: post.id,
+      post_number: 2,
+      assigned_type: "User",
+      assignment_note: null,
+      assignment_status: null,
+    });
+
+    await settled();
+    debugger;
+    assert.dom(".post-stream .topic-post .assigned-to").exists();
   });
 
   test("Reassigns the post", async function (assert) {
