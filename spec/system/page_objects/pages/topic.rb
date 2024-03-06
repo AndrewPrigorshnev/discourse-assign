@@ -18,7 +18,7 @@ module PageObjects
       end
 
       def click_more_button_on_post(post_number)
-        find("article#post_#{post_number} p.assigned-to button.more-button").click
+        find(more_button_selector(post_number)).click
       end
 
       def has_assigned?(args)
@@ -26,7 +26,7 @@ module PageObjects
       end
 
       def has_more_button_on_post?(post_number)
-        page.has_selector?("article#post_#{post_number} p.assigned-to button.more-button")
+        page.has_selector?(more_button_selector(post_number))
       end
 
       def has_unassigned?(args)
@@ -42,6 +42,12 @@ module PageObjects
         container.has_content?(
           I18n.t("js.action_codes.#{args[:action]}", who: "@#{assignee}", when: "just now"),
         )
+      end
+
+      private
+
+      def more_button_selector(post_number)
+        "article#post_#{post_number} p.assigned-to button.more-button"
       end
     end
   end
