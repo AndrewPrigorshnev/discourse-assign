@@ -26,10 +26,10 @@ describe "Assign | Assigned post popup menu", type: :system do
   it "unassigns the post" do
     visit "/t/#{topic.id}"
     topic_page.click_more_button_on_post(2)
-    expect(topic_page).to have_more_button_on_post(2)
-    # post.click_unassign
+    post_popup_menu.click_unassign
     # expect(popup_menu).to be_closed
     # expect(post).to not_have_assigned
+    expect(topic_page).to have_more_button_on_post(2)
   end
 
   it "reassigns the post" do
