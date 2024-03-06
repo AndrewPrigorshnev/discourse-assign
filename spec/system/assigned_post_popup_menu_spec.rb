@@ -18,14 +18,15 @@ describe "Assign | Assigned post popup menu", type: :system do
     sign_in(admin)
   end
 
-  it "shows ellipsis button on assigned posts" do
+  it "shows the more button on assigned posts" do
     visit "/t/#{topic.id}"
-    expect(topic_page).to have_ellipsis_button_on_post(2)
+    expect(topic_page).to have_more_button_on_post(2)
   end
 
   it "unassigns the post" do
     visit "/t/#{topic.id}"
-    # post.click_ellipsis_button
+    topic_page.click_more_button_on_post(2)
+    expect(topic_page).to have_more_button_on_post(2)
     # post.click_unassign
     # expect(popup_menu).to be_closed
     # expect(post).to not_have_assigned

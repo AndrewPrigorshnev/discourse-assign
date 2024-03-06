@@ -17,12 +17,16 @@ module PageObjects
         find("[data-value='reassign']").click
       end
 
+      def click_more_button_on_post(post_number)
+        find("article#post_#{post_number} p.assigned-to button.more-button").click
+      end
+
       def has_assigned?(args)
         has_assignment_action?(action: "assigned", **args)
       end
 
-      def has_ellipsis_button_on_post?(post_number)
-        page.has_selector?("article#post_#{post_number} p.assigned-to")
+      def has_more_button_on_post?(post_number)
+        page.has_selector?("article#post_#{post_number} p.assigned-to button.more-button")
       end
 
       def has_unassigned?(args)
