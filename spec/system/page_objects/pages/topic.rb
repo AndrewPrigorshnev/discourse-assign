@@ -21,9 +21,8 @@ module PageObjects
         has_assignment_action?(action: "assigned", **args)
       end
 
-      def has_ellipsis_button_on_post?(args)
-        puts "((((()))))"
-        true
+      def has_ellipsis_button_on_post?(post_number)
+        page.has_selector?("article#post_#{post_number} p.assigned-to")
       end
 
       def has_unassigned?(args)

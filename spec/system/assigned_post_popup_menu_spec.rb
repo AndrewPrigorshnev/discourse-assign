@@ -5,11 +5,13 @@ describe "Assign | Assigned post popup menu", type: :system do
   let(:post_popup_menu) { PageObjects::PopupMenus::Post.new }
   let(:assign_modal) { PageObjects::Modals::Assign.new }
 
+  fab!(:user)
   fab!(:admin)
   fab!(:topic)
   fab!(:post) { Fabricate(:post, topic: topic) }
   fab!(:second_post) { Fabricate(:post, topic: topic) }
-  # fab!(:staff_user) { Fabricate(:user, groups: [Group[:staff]]) }
+  fab!(:second_post_assignment) { Fabricate(:post_assignment, assigned_to: user, post: second_post) }
+
 
   before do
     SiteSetting.assign_enabled = true
@@ -18,7 +20,7 @@ describe "Assign | Assigned post popup menu", type: :system do
 
   it "shows ellipsis button on assigned posts" do
     visit "/t/#{topic.id}"
-    expect(topic_page).to have_ellipsis_button_on_post(second_post.id)
+    expect(topic_page).to have_ellipsis_button_on_post(2)
   end
 
   it "unassigns the post" do
