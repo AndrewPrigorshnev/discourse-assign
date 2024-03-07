@@ -19,6 +19,7 @@ export const AssignedToWidget = [
     },
 
     label() {
+      console.log("label");
       let { assignedToUser, assignedToGroup, href } = this.attrs;
 
       return [

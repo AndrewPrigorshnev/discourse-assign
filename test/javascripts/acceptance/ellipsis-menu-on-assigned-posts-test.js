@@ -105,10 +105,35 @@ acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
   });
 
   test("Reassigns the post", async function (assert) {
+    const topic = topicWithAssignedPostResponse();
+    const post = topic.post_stream.posts[1];
+
     await visit("/t/assignment-topic/44");
+
     await click(ellipsisButton);
     await click(popupMenu.editAssignment);
     await click(".d-modal__footer .btn-primary");
+    debugger;
+
+    await publishToMessageBus("/staff/topic-assignment", {
+      type: "assigned",
+      topic_id: topic.id,
+      post_id: post.id,
+      post_number: 2,
+      assigned_type: "User",
+      assigned_to: {
+        // id: 1000,
+        username: "new_assignee",
+        // name: null,
+        // avatar_template: "/letter_avatar_proxy/v4/letter/a/ecd19e/{size}.png",
+        // assign_icon: "user-plus",
+        // assign_path: "/u/new_assignee/activity/assigned",
+      },
+      assignment_note: null,
+      assignment_status: null,
+    });
+
+    debugger;
     // todo assert post is not assigned anymore
   });
 });
