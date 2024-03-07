@@ -26,11 +26,13 @@ function topicWithAssignedPostResponse() {
   return topic;
 }
 
-const ellipsisButton = ".post-stream .topic-post .more-button";
-const popupMenu = {
-  unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
-  editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus",
-};
+const selectors = {
+  moreButton: ".post-stream .topic-post .more-button",
+  popupMenu: {
+    unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
+    editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus",
+  }
+}
 
 acceptance("Discourse Assign | Post popup menu", function (needs) {
   needs.user();
@@ -70,8 +72,8 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
 
     await visit("/t/assignment-topic/44");
 
-    await click(ellipsisButton);
-    await click(popupMenu.unassign);
+    await click(selectors.moreButton);
+    await click(selectors.popupMenu.unassign);
     await publishToMessageBus("/staff/topic-assignment", {
       type: "unassigned",
       topic_id: topic.id,
@@ -94,8 +96,8 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
 
     await visit("/t/assignment-topic/44");
 
-    await click(ellipsisButton);
-    await click(popupMenu.editAssignment);
+    await click(selectors.moreButton);
+    await click(selectors.popupMenu.editAssignment);
     await click(".d-modal__footer .btn-primary");
 
     await publishToMessageBus("/staff/topic-assignment", {
