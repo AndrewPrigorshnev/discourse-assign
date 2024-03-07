@@ -33,7 +33,7 @@ const popupMenu = {
   editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus",
 };
 
-acceptance("Discourse Assign | Popup menu on assigned posts", function (needs) {
+acceptance("Discourse Assign | Post popup menu", function (needs) {
   needs.user();
   needs.settings({
     assign_enabled: true,
