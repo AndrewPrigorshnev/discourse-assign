@@ -6,6 +6,7 @@ describe "Assign | Assigned post popup menu", type: :system do
   let(:assign_modal) { PageObjects::Modals::Assign.new }
 
   fab!(:user)
+  fab!(:second_user) { Fabricate(:user) }
   fab!(:admin)
   fab!(:topic)
   fab!(:post) { Fabricate(:post, topic: topic) }
@@ -28,15 +29,19 @@ describe "Assign | Assigned post popup menu", type: :system do
     topic_page.click_more_button_on_post(2)
     post_popup_menu.click_unassign
     # expect(popup_menu).to be_closed
-    # expect(post).to not_have_assigned
-    expect(topic_page).to have_more_button_on_post(2)
+    # expect(post).to not_be_assigned
+    expect(topic_page).to have_more_button_on_post(2) # fixme andrei drop
   end
 
   it "reassigns the post" do
     visit "/t/#{topic.id}"
-    # post.click_ellipsis_button
-    # post.click_unassign
+    topic_page.click_more_button_on_post(2)
+    post_popup_menu.click_reassign
+    find(".modal-container details summary[role=listbox] .select-kit-header-wrapper").click
+    find(".modal-container .filter-input").send_keys(admin.username)
+    find(".modal-container .btn-primary").click
     # expect(popup_menu).to be_closed
-    # expect(post).to not_have_assigned
+    # expect(post).to be_assigned
+    expect(topic_page).to have_more_button_on_post(2) # fixme andrei drop
   end
 end

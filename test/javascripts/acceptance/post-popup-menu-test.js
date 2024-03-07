@@ -133,6 +133,8 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
       assignment_status: null,
     });
 
+    await settled();
+
     debugger;
     // todo assert post is not assigned anymore
   });
