@@ -54,20 +54,6 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
     });
 
     server.put("/assign/unassign", () => {
-      const topic = topicWithAssignedPostResponse();
-      const post = topic.post_stream.posts[1];
-
-      console.log("/assign/unassign has been called");
-      // publishToMessageBus("/staff/topic-assignment", {
-      //   type: "unassigned",
-      //   topic_id: topic.id,
-      //   post_id: post.id,
-      //   post_number: 2,
-      //   assigned_type: "User",
-      //   assignment_note: null,
-      //   assignment_status: null,
-      // });
-
       return helper.response({ success: true });
     });
 
@@ -122,8 +108,8 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
       post_number: 2,
       assigned_type: "User",
       assigned_to: {
-        // id: 1000,
         username: "new_assignee",
+        // id: 1000,
         // name: null,
         // avatar_template: "/letter_avatar_proxy/v4/letter/a/ecd19e/{size}.png",
         // assign_icon: "user-plus",
@@ -133,9 +119,7 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
       assignment_status: null,
     });
 
-    await settled();
-
-    debugger;
-    // todo assert post is not assigned anymore
+    assert.dom(".popup-menu").doesNotExist("The popup menu is closed");
+    // fixme andrei assert post assigned to another user
   });
 });

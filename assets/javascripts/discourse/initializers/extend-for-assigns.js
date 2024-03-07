@@ -748,7 +748,6 @@ function initialize(api) {
       this._super(...arguments);
 
       this.messageBus.subscribe("/staff/topic-assignment", (data) => {
-        console.log("listener");
         const topic = this.model;
         const topicId = topic.id;
 
