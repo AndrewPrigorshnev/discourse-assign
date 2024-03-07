@@ -1,9 +1,8 @@
-import { click, settled, visit } from "@ember/test-helpers";
+import { click, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import topicFixtures from "discourse/tests/fixtures/topic";
 import {
   acceptance,
-  query,
   publishToMessageBus,
   updateCurrentUser,
 } from "discourse/tests/helpers/qunit-helpers";
@@ -49,7 +48,6 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
     );
 
     server.put("/assign/assign", () => {
-      console.log("/assign/assign has been called");
       return helper.response({ success: true });
     });
 
@@ -99,7 +97,6 @@ acceptance("Discourse Assign | Post popup menu", function (needs) {
     await click(ellipsisButton);
     await click(popupMenu.editAssignment);
     await click(".d-modal__footer .btn-primary");
-    debugger;
 
     await publishToMessageBus("/staff/topic-assignment", {
       type: "assigned",
