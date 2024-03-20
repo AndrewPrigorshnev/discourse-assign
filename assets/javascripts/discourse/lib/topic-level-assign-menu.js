@@ -89,15 +89,22 @@ export default {
     }
   },
   content() {
-    const content = [
-      unassignFromTopicButton(this.topic),
-      ...unassignFromPostButtons(this.topic),
-    ];
+    const content = [];
 
-    if (showReassignSelfButton(this.topic, this.currentUser)) {
-      content.push(reassignToSelfButton());
+    if (this.topic.isAssigned()) {
+      content.push(unassignFromTopicButton(this.topic));
     }
-    content.push(reassignButton());
+
+    if (this.topic.hasAssignedPosts()) {
+      content.push(...unassignFromPostButtons(this.topic));
+    }
+
+    if (this.topic.isAssigned()) {
+      if (showReassignSelfButton(this.topic, this.currentUser)) {
+        content.push(reassignToSelfButton());
+      }
+      content.push(reassignButton());
+    }
 
     return content;
   },
@@ -106,7 +113,7 @@ export default {
     return (
       this.currentUser?.can_assign &&
       !this.site.mobileView &&
-      this.topic.isAssigned()
+      (this.topic.isAssigned() || this.topic.hasAssignedPosts())
     );
   },
 };
@@ -165,10 +172,6 @@ function unassignFromTopicButton(topic) {
 }
 
 function unassignFromPostButtons(topic) {
-  if (!topic.indirectly_assigned_to) {
-    return [];
-  }
-
   return Object.entries(topic.indirectly_assigned_to).map(
     ([postId, assignment]) => unassignFromPostButton(postId, assignment)
   );
