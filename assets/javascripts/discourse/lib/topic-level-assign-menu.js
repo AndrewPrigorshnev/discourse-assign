@@ -13,6 +13,8 @@ const DEPENDENT_KEYS = [
 
 export default {
   id: "reassign",
+  dependentKeys: DEPENDENT_KEYS,
+  classNames: ["reassign"],
 
   async action(id) {
     if (!this.currentUser?.can_assign) {
@@ -85,47 +87,12 @@ export default {
       };
     }
   },
-  dependentKeys: DEPENDENT_KEYS,
-  classNames: ["reassign"],
   content() {
-    const content = [
-      {
-        id: "unassign",
-        name: I18n.t("discourse_assign.unassign.help", {
-          username:
-            this.topic.assigned_to_user?.username ||
-            this.topic.assigned_to_group?.name,
-        }),
-        label: htmlSafe(
-          `${iconHTML("user-times")} ${I18n.t(
-            "discourse_assign.unassign.title"
-          )}`
-        ),
-      },
-    ];
-    if (
-      this.topic.isAssigned() &&
-      this.topic.assigned_to_user?.username !== this.currentUser.username
-    ) {
-      content.push({
-        id: "reassign-self",
-        name: I18n.t("discourse_assign.reassign.to_self_help"),
-        label: htmlSafe(
-          `${iconHTML("user-plus")} ${I18n.t(
-            "discourse_assign.reassign.to_self"
-          )}`
-        ),
-      });
+    const content = [unassignFromTopicButton(this.topic)];
+    if (showReassignSelfButton(this.topic, this.currentUser)) {
+      content.push(reassignToSelfButton());
     }
-    content.push({
-      id: "reassign",
-      name: I18n.t("discourse_assign.reassign.help"),
-      label: htmlSafe(
-        `${iconHTML("group-plus")} ${I18n.t(
-          "discourse_assign.reassign.title_w_ellipsis"
-        )}`
-      ),
-    });
+    content.push(reassignButton());
     return content;
   },
 
@@ -137,3 +104,57 @@ export default {
     );
   },
 };
+
+function avatarHtml(user) {
+  return renderAvatar(user, { imageSize: "small", ignoreTitle: true });
+}
+
+function extractPostId(buttonId) {
+  const start = buttonId.lastIndexOf("-") + 1;
+  return buttonId.substring(start);
+}
+
+function reassignButton() {
+  return {
+    id: "reassign",
+    name: I18n.t("discourse_assign.reassign.help"),
+    label: htmlSafe(
+      `${iconHTML("group-plus")} ${I18n.t(
+        "discourse_assign.reassign.title_w_ellipsis"
+      )}`
+    ),
+  };
+}
+
+function reassignToSelfButton() {
+  return {
+    id: "reassign-self",
+    name: I18n.t("discourse_assign.reassign.to_self_help"),
+    label: htmlSafe(
+      `${iconHTML("user-plus")} ${I18n.t("discourse_assign.reassign.to_self")}`
+    ),
+  };
+}
+
+function showReassignSelfButton(topic, currentUser) {
+  return (
+    topic.isAssigned() &&
+    topic.assigned_to_user?.username !== currentUser.username
+  );
+}
+
+function unassignFromTopicButton(topic) {
+  const username =
+    topic.assigned_to_user?.username || topic.assigned_to_group?.name;
+
+  const icon = topic.assigned_to_user
+    ? avatarHtml(topic.assigned_to_user)
+    : iconHTML("user-times");
+  const label = I18n.t("discourse_assign.unassign.long_title", { username });
+
+  return {
+    id: "unassign",
+    name: I18n.t("discourse_assign.unassign.help", { username }),
+    label: htmlSafe(`${icon} ${label}`),
+  };
+}
