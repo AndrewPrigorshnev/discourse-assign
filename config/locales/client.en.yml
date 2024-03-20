@@ -40,6 +40,7 @@ en:
       unassign:
         title: "Unassign"
         title_w_ellipsis: "Unassign..."
+        long_title: "Unassign %{username} from topic"
         help: "Unassign %{username} from Topic"
       assign:
         title: "Assign"
