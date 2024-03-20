@@ -64,12 +64,14 @@ export default {
   },
 
   noneItem() {
-    if (this.topic.assigned_to_user) {
-      return unassignUserButton(this.topic.assigned_to_user);
-    } else if (this.topic.hasAssignedPosts()) {
-      return unassignUserButton(Object.values(this.topic.indirectly_assigned_to)[0].assigned_to);
-    } else if (this.topic.assigned_to_group) {
-      return unassignGroupButton(this.topic.assigned_to_group);
+    const topic = this.topic;
+
+    if (topic.assigned_to_user) {
+      return unassignUserButton(topic.assigned_to_user);
+    } else if (topic.hasAssignedPosts()) {
+      return unassignUserButton(topic.assignedPosts()[0].assigned_to);
+    } else if (topic.assigned_to_group) {
+      return unassignGroupButton(topic.assigned_to_group);
     }
   },
   content() {

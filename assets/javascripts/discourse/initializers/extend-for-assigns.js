@@ -40,6 +40,15 @@ function defaultTitle(topic) {
 function extendTopicModel(api) {
   api.modifyClass("model:topic", {
     pluginId: PLUGIN_ID,
+
+    assignedPosts() {
+      if (!this.indirectly_assigned_to) {
+        return [];
+      }
+
+      return Object.values(this.indirectly_assigned_to);
+    },
+
     isAssigned() {
       return this.assigned_to_user || this.assigned_to_group;
     },
@@ -49,11 +58,7 @@ function extendTopicModel(api) {
     },
 
     hasAssignedPosts() {
-      if (!this.indirectly_assigned_to) {
-        return false;
-      }
-
-      return !!Object.keys(this.indirectly_assigned_to).length;
+      return !!this.assignedPosts().length;
     },
   });
 }
