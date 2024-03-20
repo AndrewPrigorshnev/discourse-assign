@@ -99,12 +99,11 @@ export default {
       content.push(...unassignFromPostButtons(this.topic));
     }
 
-    if (this.topic.isAssigned()) {
-      if (showReassignSelfButton(this.topic, this.currentUser)) {
-        content.push(reassignToSelfButton());
-      }
-      content.push(reassignButton());
+    if (showReassignSelfButton(this.topic, this.currentUser)) {
+      content.push(reassignToSelfButton());
     }
+
+    content.push(reassignButton());
 
     return content;
   },
