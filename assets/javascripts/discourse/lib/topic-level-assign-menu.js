@@ -99,7 +99,7 @@ export default {
       content.push(...unassignFromPostButtons(this.topic));
     }
 
-    if (showReassignSelfButton(this.topic, this.currentUser)) {
+    if (this.topic.isAssigned() && !this.topic.isAssignedTo(this.currentUser)) {
       content.push(reassignToSelfButton());
     }
 
@@ -146,10 +146,6 @@ function reassignToSelfButton() {
       `${iconHTML("user-plus")} ${I18n.t("discourse_assign.reassign.to_self")}`
     ),
   };
-}
-
-function showReassignSelfButton(topic, currentUser) {
-  return topic.isAssigned() && !topic.isAssignedTo(currentUser);
 }
 
 function unassignFromTopicButton(topic) {
