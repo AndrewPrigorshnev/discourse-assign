@@ -51,7 +51,7 @@ function extendTopicModel(api) {
     hasAssignedPosts() {
       // fixme andrei implement
       return true;
-    }
+    },
   });
 }
 
@@ -108,7 +108,10 @@ function registerTopicFooterButtons(api) {
     classNames: ["assign"],
     dependentKeys: DEPENDENT_KEYS,
     displayed() {
-      return this.currentUser?.can_assign && !this.topic.isAssigned();
+      return (
+        this.currentUser?.can_assign &&
+        !(this.topic.isAssigned() || this.topic.hasAssignedPosts())
+      );
     },
   });
 
@@ -538,7 +541,9 @@ function initialize(api) {
       return new RenderGlimmer(
         this,
         "p.assigned-to",
-        hbs`<AssignedToPost @assignedToUser={{@data.assignedToUser}} @assignedToGroup={{@data.assignedToGroup}} @href={{@data.href}} @post={{@data.post}} />`,
+        hbs`
+          <AssignedToPost @assignedToUser={{@data.assignedToUser}} @assignedToGroup={{@data.assignedToGroup}}
+                          @href={{@data.href}} @post={{@data.post}} />`,
         {
           assignedToUser: attrs.post.assigned_to_user,
           assignedToGroup: attrs.post.assigned_to_group,
