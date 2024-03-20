@@ -22,6 +22,7 @@ export default {
     }
 
     const taskActions = getOwner(this).lookup("service:task-actions");
+    const firstPostId = this.topic.postStream.firstPostId;
 
     switch (id) {
       case "unassign": {
@@ -29,10 +30,7 @@ export default {
         this.set("topic.assigned_to_group", null);
 
         await taskActions.unassign(this.topic.id);
-
-        this.appEvents.trigger("post-stream:refresh", {
-          id: this.topic.postStream.firstPostId,
-        });
+        this.appEvents.trigger("post-stream:refresh", { id: firstPostId });
         break;
       }
       case "reassign-self": {
@@ -40,10 +38,7 @@ export default {
         this.set("topic.assigned_to_group", null);
 
         await taskActions.reassignUserToTopic(this.currentUser, this.topic);
-
-        this.appEvents.trigger("post-stream:refresh", {
-          id: this.topic.postStream.firstPostId,
-        });
+        this.appEvents.trigger("post-stream:refresh", { id: firstPostId });
         break;
       }
       case "reassign": {
@@ -51,9 +46,7 @@ export default {
           targetType: "Topic",
           isAssigned: this.topic.isAssigned(),
           onSuccess: () =>
-            this.appEvents.trigger("post-stream:refresh", {
-              id: this.topic.postStream.firstPostId,
-            }),
+            this.appEvents.trigger("post-stream:refresh", { id: firstPostId }),
         });
         break;
       }
@@ -71,7 +64,9 @@ export default {
       return {
         id: null,
         name: I18n.t("discourse_assign.reassign_modal.title"),
-        label: htmlSafe(`${avatar}<span class="unassign-label">${label}</span>`),
+        label: htmlSafe(
+          `${avatar}<span class="unassign-label">${label}</span>`
+        ),
       };
     } else if (group) {
       return {
