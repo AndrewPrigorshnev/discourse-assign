@@ -149,10 +149,7 @@ function reassignToSelfButton() {
 }
 
 function showReassignSelfButton(topic, currentUser) {
-  return (
-    topic.isAssigned() &&
-    topic.assigned_to_user?.username !== currentUser.username
-  );
+  return topic.isAssigned() && !topic.isAssignedTo(currentUser);
 }
 
 function unassignFromTopicButton(topic) {

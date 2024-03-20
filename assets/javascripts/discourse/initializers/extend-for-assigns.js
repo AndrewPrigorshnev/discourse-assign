@@ -44,6 +44,10 @@ function extendTopicModel(api) {
       return this.assigned_to_user || this.assigned_to_group;
     },
 
+    isAssignedTo(user) {
+      return this.assigned_to_user?.username === user.username;
+    },
+
     hasAssignedPosts() {
       // fixme andrei implement
       return true;
