@@ -103,7 +103,7 @@ export default {
       content.push(reassignToSelfButton());
     }
 
-    content.push(reassignButton());
+    content.push(editAssignmentButton());
 
     return content;
   },
@@ -126,7 +126,7 @@ function extractPostId(buttonId) {
   return buttonId.substring(start);
 }
 
-function reassignButton() {
+function editAssignmentButton() {
   return {
     id: "reassign",
     name: I18n.t("discourse_assign.reassign.help"),
