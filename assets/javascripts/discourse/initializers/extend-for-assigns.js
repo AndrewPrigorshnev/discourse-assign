@@ -49,8 +49,11 @@ function extendTopicModel(api) {
     },
 
     hasAssignedPosts() {
-      // fixme andrei implement
-      return true;
+      if (!this.indirectly_assigned_to) {
+        return false;
+      }
+
+      return !!Object.keys(this.indirectly_assigned_to).length;
     },
   });
 }
