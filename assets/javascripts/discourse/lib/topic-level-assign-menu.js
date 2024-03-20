@@ -64,28 +64,10 @@ export default {
   },
 
   noneItem() {
-    const user = this.topic.assigned_to_user;
-    const group = this.topic.assigned_to_group;
-    const label = I18n.t("discourse_assign.unassign.title_w_ellipsis");
-    const groupLabel = I18n.t("discourse_assign.unassign.title");
-
-    if (user) {
-      const avatar = avatarHtml(user, "tiny");
-      return {
-        id: null,
-        name: I18n.t("discourse_assign.reassign_modal.title"),
-        label: htmlSafe(
-          `${avatar}<span class="unassign-label">${label}</span>`
-        ),
-      };
-    } else if (group) {
-      return {
-        id: null,
-        name: I18n.t("discourse_assign.reassign_modal.title"),
-        label: htmlSafe(
-          `<span class="unassign-label">${groupLabel}</span> @${group.name}...`
-        ),
-      };
+    if (this.topic.assigned_to_user) {
+      return unassignUserButton(this.topic.assigned_to_user);
+    } else if (this.topic.assigned_to_group) {
+      return unassignGroupButton(this.topic.assigned_to_group);
     }
   },
   content() {
@@ -116,6 +98,30 @@ export default {
     );
   },
 };
+
+function unassignGroupButton(group) {
+  const label = I18n.t("discourse_assign.unassign.title");
+  return {
+    id: null,
+    name: I18n.t("discourse_assign.reassign_modal.title"),
+    label: htmlSafe(
+      `<span class="unassign-label">${label}</span> @${group.name}...`
+    ),
+  };
+}
+
+function unassignUserButton(user) {
+  const avatar = avatarHtml(user, "tiny");
+  const label = I18n.t("discourse_assign.unassign.title_w_ellipsis");
+
+  return {
+    id: null,
+    name: I18n.t("discourse_assign.reassign_modal.title"),
+    label: htmlSafe(
+      `${avatar}<span class="unassign-label">${label}</span>`
+    ),
+  };
+}
 
 function avatarHtml(user, size) {
   return renderAvatar(user, { imageSize: size, ignoreTitle: true });
@@ -164,6 +170,10 @@ function unassignFromTopicButton(topic) {
 }
 
 function unassignFromPostButtons(topic) {
+  if (!topic.indirectly_assigned_to) {
+    return [];
+  }
+
   return Object.entries(topic.indirectly_assigned_to).map(
     ([postId, assignment]) => unassignFromPostButton(postId, assignment)
   );
