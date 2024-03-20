@@ -101,8 +101,8 @@ export default {
   },
 };
 
-function avatarHtml(user) {
-  return renderAvatar(user, { imageSize: "small", ignoreTitle: true });
+function avatarHtml(user, size) {
+  return renderAvatar(user, { imageSize: size, ignoreTitle: true });
 }
 
 function reassignButton() {
@@ -137,9 +137,8 @@ function showReassignSelfButton(topic, currentUser) {
 function unassignFromTopicButton(topic) {
   const username =
     topic.assigned_to_user?.username || topic.assigned_to_group?.name;
-
   const icon = topic.assigned_to_user
-    ? avatarHtml(topic.assigned_to_user)
+    ? avatarHtml(topic.assigned_to_user, "small")
     : iconHTML("user-times");
   const label = I18n.t("discourse_assign.unassign.long_title", { username });
 
