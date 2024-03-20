@@ -50,6 +50,16 @@ export default {
         });
         break;
       }
+      default: {
+        if (id.startsWith("unassign-from-post-")) {
+          const postId = extractPostId(id);
+          await taskActions.unassign(postId, "Post");
+          delete this.topic.indirectly_assigned_to[postId];
+          this.appEvents.trigger("post-stream:refresh", {
+            id: this.topic.postStream.firstPostId,
+          });
+        }
+      }
     }
   },
 
@@ -79,11 +89,16 @@ export default {
     }
   },
   content() {
-    const content = [unassignFromTopicButton(this.topic)];
+    const content = [
+      unassignFromTopicButton(this.topic),
+      ...unassignFromPostButtons(this.topic),
+    ];
+
     if (showReassignSelfButton(this.topic, this.currentUser)) {
       content.push(reassignToSelfButton());
     }
     content.push(reassignButton());
+
     return content;
   },
 
@@ -98,6 +113,11 @@ export default {
 
 function avatarHtml(user, size) {
   return renderAvatar(user, { imageSize: size, ignoreTitle: true });
+}
+
+function extractPostId(buttonId) {
+  const start = buttonId.lastIndexOf("-") + 1;
+  return buttonId.substring(start);
 }
 
 function reassignButton() {
@@ -141,5 +161,25 @@ function unassignFromTopicButton(topic) {
     id: "unassign",
     name: I18n.t("discourse_assign.unassign.help", { username }),
     label: htmlSafe(`${icon} ${label}`),
+  };
+}
+
+function unassignFromPostButtons(topic) {
+  if (!topic.indirectly_assigned_to) {
+    return [];
+  }
+
+  return Object.entries(topic.indirectly_assigned_to).map(
+    ([postId, assignment]) => unassignFromPostButton(postId, assignment)
+  );
+}
+
+function unassignFromPostButton(postId, assignment) {
+  const avatar = avatarHtml(assignment.assigned_to, "small");
+  const label = `Unassign @${assignment.assigned_to.username} from #${assignment.post_number}`; // fixme andrei
+  return {
+    id: `unassign-from-post-${postId}`,
+    name: I18n.t("discourse_assign.reassign.help"), // fixme andrei
+    label: htmlSafe(`${avatar} ${label}`),
   };
 }
