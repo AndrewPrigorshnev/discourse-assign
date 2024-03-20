@@ -109,11 +109,6 @@ function avatarHtml(user) {
   return renderAvatar(user, { imageSize: "small", ignoreTitle: true });
 }
 
-function extractPostId(buttonId) {
-  const start = buttonId.lastIndexOf("-") + 1;
-  return buttonId.substring(start);
-}
-
 function reassignButton() {
   return {
     id: "reassign",
