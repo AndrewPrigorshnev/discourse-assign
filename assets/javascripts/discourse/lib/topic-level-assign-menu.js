@@ -170,7 +170,7 @@ function unassignFromTopicButton(topic) {
 }
 
 function unassignFromPostButtons(topic) {
-  if (!topic.indirectly_assigned_to) {
+  if (!topic.hasAssignedPosts()) {
     return [];
   }
 
