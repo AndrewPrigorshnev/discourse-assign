@@ -55,9 +55,7 @@ export default {
           const postId = extractPostId(id);
           await taskActions.unassign(postId, "Post");
           delete this.topic.indirectly_assigned_to[postId];
-          this.appEvents.trigger("post-stream:refresh", {
-            id: this.topic.postStream.firstPostId,
-          });
+          this.appEvents.trigger("post-stream:refresh", { id: firstPostId, });
         }
       }
     }
@@ -121,9 +119,7 @@ function unassignUserButton(user) {
   return {
     id: null,
     name: I18n.t("discourse_assign.reassign_modal.title"),
-    label: htmlSafe(
-      `${avatar}<span class="unassign-label">${label}</span>`
-    ),
+    label: htmlSafe(`${avatar}<span class="unassign-label">${label}</span>`),
   };
 }
 
