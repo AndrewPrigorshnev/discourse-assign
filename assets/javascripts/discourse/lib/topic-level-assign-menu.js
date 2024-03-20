@@ -67,15 +67,11 @@ export default {
     const groupLabel = I18n.t("discourse_assign.unassign.title");
 
     if (user) {
+      const avatar = avatarHtml(user, "tiny");
       return {
         id: null,
         name: I18n.t("discourse_assign.reassign_modal.title"),
-        label: htmlSafe(
-          `${renderAvatar(user, {
-            imageSize: "tiny",
-            ignoreTitle: true,
-          })}<span class="unassign-label">${label}</span>`
-        ),
+        label: htmlSafe(`${avatar}<span class="unassign-label">${label}</span>`),
       };
     } else if (group) {
       return {
