@@ -55,7 +55,7 @@ export default {
           const postId = extractPostId(id);
           await taskActions.unassign(postId, "Post");
           delete this.topic.indirectly_assigned_to[postId];
-          this.appEvents.trigger("post-stream:refresh", { id: firstPostId, });
+          this.appEvents.trigger("post-stream:refresh", { id: firstPostId });
         }
       }
     }
@@ -174,9 +174,10 @@ function unassignFromPostButtons(topic) {
     return [];
   }
 
-  return Object.entries(topic.indirectly_assigned_to).map(
-    ([postId, assignment]) => unassignFromPostButton(postId, assignment)
-  );
+  const max_buttons = 10;
+  return Object.entries(topic.indirectly_assigned_to)
+    .slice(0, max_buttons)
+    .map(([postId, assignment]) => unassignFromPostButton(postId, assignment));
 }
 
 function unassignFromPostButton(postId, assignment) {
