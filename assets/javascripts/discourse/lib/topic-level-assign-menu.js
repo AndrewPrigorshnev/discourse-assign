@@ -128,6 +128,7 @@ function avatarHtml(user, size) {
 }
 
 function extractPostId(buttonId) {
+  // buttonId format is "unassign-from-post-${postId}"
   const start = buttonId.lastIndexOf("-") + 1;
   return buttonId.substring(start);
 }
