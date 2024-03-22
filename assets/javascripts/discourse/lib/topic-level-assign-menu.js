@@ -115,14 +115,16 @@ function unassignUsersButton(users) {
     .slice(0, 2)
     .map((user) => avatarHtml(user, "tiny"))
     .join("");
-  const label = I18n.t(
+  const label = `<span class="unassign-label">${I18n.t(
     "discourse_assign.topic_level_menu.unassign_with_ellipsis"
-  );
+  )}</span>`;
 
   return {
     id: null,
-    name: htmlSafe(label),
-    label: htmlSafe(`${avatars}<span class="unassign-label">${label}</span>`),
+    name: htmlSafe(
+      I18n.t("discourse_assign.topic_level_menu.unassign_with_ellipsis")
+    ),
+    label: htmlSafe(`${avatars}${label}`),
   };
 }
 
