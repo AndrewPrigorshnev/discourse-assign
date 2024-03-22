@@ -134,7 +134,7 @@ function extractPostId(buttonId) {
 }
 
 function editAssignmentsButton() {
-  const icon = iconHTML("group-plus");
+  const icon = iconHTML("pencil-alt");
   const label = I18n.t("discourse_assign.topic_level_menu.edit_assignments");
   return {
     id: "reassign",
