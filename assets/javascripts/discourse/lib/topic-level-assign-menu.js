@@ -111,14 +111,18 @@ function unassignGroupButton(group) {
 }
 
 function unassignUsersButton(users) {
-  console.log("users", users);
-  const avatar = avatarHtml(users[0], "tiny");
-  const label = I18n.t("discourse_assign.topic_level_menu.unassign_with_ellipsis");
+  const avatars = users
+    .slice(0, 2)
+    .map((user) => avatarHtml(user, "tiny"))
+    .join("");
+  const label = I18n.t(
+    "discourse_assign.topic_level_menu.unassign_with_ellipsis"
+  );
 
   return {
     id: null,
     name: htmlSafe(label),
-    label: htmlSafe(`${avatar}<span class="unassign-label">${label}</span>`),
+    label: htmlSafe(`${avatars}<span class="unassign-label">${label}</span>`),
   };
 }
 
@@ -186,11 +190,16 @@ function unassignFromPostButtons(topic) {
 function unassignFromPostButton(postId, assignment) {
   const avatar = avatarHtml(assignment.assigned_to, "small");
   const label = I18n.t("discourse_assign.topic_level_menu.unassign_from_post", {
-    username: assignment.assigned_to.username, post_number: assignment.post_number
+    username: assignment.assigned_to.username,
+    post_number: assignment.post_number,
   });
-  const dataName = I18n.t("discourse_assign.topic_level_menu.unassign_from_post_help", {
-    username: assignment.assigned_to.username, post_number: assignment.post_number
-  });
+  const dataName = I18n.t(
+    "discourse_assign.topic_level_menu.unassign_from_post_help",
+    {
+      username: assignment.assigned_to.username,
+      post_number: assignment.post_number,
+    }
+  );
   return {
     id: `unassign-from-post-${postId}`,
     name: htmlSafe(dataName),
