@@ -114,7 +114,7 @@ function unassignGroupButton(group) {
 
 function unassignUserButton(user) {
   const avatar = avatarHtml(user, "tiny");
-  const label = I18n.t("discourse_assign.topic_level_menu.edit_assignments");
+  const label = I18n.t("discourse_assign.topic_level_menu.unassign_with_ellipsis");
 
   return {
     id: null,
