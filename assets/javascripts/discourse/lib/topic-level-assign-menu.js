@@ -64,10 +64,8 @@ export default {
   noneItem() {
     const topic = this.topic;
 
-    if (topic.assigned_to_user) {
-      return unassignUsersButton(topic.assigned_to_user);
-    } else if (topic.hasAssignedPosts()) {
-      return unassignUsersButton(topic.assignedPosts()[0].assigned_to);
+    if (topic.assigned_to_user || topic.hasAssignedPosts()) {
+      return unassignUsersButton([topic.assigned_to_user]);
     } else if (topic.assigned_to_group) {
       return unassignGroupButton(topic.assigned_to_group);
     }
@@ -112,8 +110,8 @@ function unassignGroupButton(group) {
   };
 }
 
-function unassignUsersButton(user) {
-  const avatar = avatarHtml(user, "tiny");
+function unassignUsersButton(users) {
+  const avatar = avatarHtml(users[0], "tiny");
   const label = I18n.t("discourse_assign.topic_level_menu.unassign_with_ellipsis");
 
   return {
