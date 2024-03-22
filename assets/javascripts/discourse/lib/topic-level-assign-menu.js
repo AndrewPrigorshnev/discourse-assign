@@ -65,7 +65,7 @@ export default {
     const topic = this.topic;
 
     if (topic.assigned_to_user || topic.hasAssignedPosts()) {
-      return unassignUsersButton([topic.assigned_to_user]);
+      return unassignUsersButton(topic.assignees());
     } else if (topic.assigned_to_group) {
       return unassignGroupButton(topic.assigned_to_group);
     }
@@ -111,6 +111,7 @@ function unassignGroupButton(group) {
 }
 
 function unassignUsersButton(users) {
+  console.log("users", users);
   const avatar = avatarHtml(users[0], "tiny");
   const label = I18n.t("discourse_assign.topic_level_menu.unassign_with_ellipsis");
 

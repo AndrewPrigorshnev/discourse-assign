@@ -41,6 +41,18 @@ function extendTopicModel(api) {
   api.modifyClass("model:topic", {
     pluginId: PLUGIN_ID,
 
+    assignees() {
+      const result = [];
+
+      if (this.assigned_to_user) {
+        result.push(this.assigned_to_user);
+      }
+
+      const postAssignees = this.assignedPosts().map((p) => p.assigned_to);
+      result.push(...postAssignees);
+      return result;
+    },
+
     assignedPosts() {
       if (!this.indirectly_assigned_to) {
         return [];
