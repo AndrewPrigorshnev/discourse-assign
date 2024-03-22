@@ -187,11 +187,14 @@ function unassignFromPostButtons(topic) {
 function unassignFromPostButton(postId, assignment) {
   const avatar = avatarHtml(assignment.assigned_to, "small");
   const label = I18n.t("discourse_assign.topic_level_menu.unassign_from_post", {
-    username: assignment.assigned_to.username,
+    username: assignment.assigned_to.username, post_number: assignment.post_number
+  });
+  const dataName = I18n.t("discourse_assign.topic_level_menu.unassign_from_post_help", {
+    username: assignment.assigned_to.username, post_number: assignment.post_number
   });
   return {
     id: `unassign-from-post-${postId}`,
-    name: htmlSafe(label),
+    name: htmlSafe(dataName),
     label: htmlSafe(`${avatar} ${label}`),
   };
 }
