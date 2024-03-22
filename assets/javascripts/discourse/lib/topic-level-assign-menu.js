@@ -87,7 +87,7 @@ export default {
       content.push(reassignToSelfButton());
     }
 
-    content.push(editAssignmentButton());
+    content.push(editAssignmentsButton());
 
     return content;
   },
@@ -133,25 +133,25 @@ function extractPostId(buttonId) {
   return buttonId.substring(start);
 }
 
-function editAssignmentButton() {
+function editAssignmentsButton() {
+  const icon = iconHTML("group-plus");
+  const label = I18n.t("discourse_assign.topic_level_menu.edit_assignments");
   return {
     id: "reassign",
-    name: I18n.t("discourse_assign.reassign.help"),
-    label: htmlSafe(
-      `${iconHTML("group-plus")} ${I18n.t(
-        "discourse_assign.reassign.title_w_ellipsis"
-      )}`
-    ),
+    name: htmlSafe(label),
+    label: htmlSafe(`${icon} ${label}`),
   };
 }
 
 function reassignToSelfButton() {
+  const icon = iconHTML("user-plus");
+  const label = I18n.t(
+    "discourse_assign.topic_level_menu.reassign_topic_to_me"
+  );
   return {
     id: "reassign-self",
-    name: I18n.t("discourse_assign.reassign.to_self_help"),
-    label: htmlSafe(
-      `${iconHTML("user-plus")} ${I18n.t("discourse_assign.reassign.to_self")}`
-    ),
+    name: htmlSafe(label),
+    label: htmlSafe(`${icon} ${label}`),
   };
 }
 
@@ -161,11 +161,14 @@ function unassignFromTopicButton(topic) {
   const icon = topic.assigned_to_user
     ? avatarHtml(topic.assigned_to_user, "small")
     : iconHTML("user-times");
-  const label = I18n.t("discourse_assign.unassign.long_title", { username });
+  const label = I18n.t(
+    "discourse_assign.topic_level_menu.unassign_from_topic",
+    { username }
+  );
 
   return {
     id: "unassign",
-    name: I18n.t("discourse_assign.unassign.help", { username }),
+    name: htmlSafe(label),
     label: htmlSafe(`${icon} ${label}`),
   };
 }
@@ -183,10 +186,12 @@ function unassignFromPostButtons(topic) {
 
 function unassignFromPostButton(postId, assignment) {
   const avatar = avatarHtml(assignment.assigned_to, "small");
-  const label = `Unassign @${assignment.assigned_to.username} from #${assignment.post_number}`; // fixme andrei
+  const label = I18n.t("discourse_assign.topic_level_menu.unassign_from_post", {
+    username: assignment.assigned_to.username,
+  });
   return {
     id: `unassign-from-post-${postId}`,
-    name: I18n.t("discourse_assign.reassign.help"), // fixme andrei
+    name: htmlSafe(label),
     label: htmlSafe(`${avatar} ${label}`),
   };
 }

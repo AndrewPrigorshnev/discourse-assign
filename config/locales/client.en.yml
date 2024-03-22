@@ -40,7 +40,6 @@ en:
       unassign:
         title: "Unassign"
         title_w_ellipsis: "Unassign..."
-        long_title: "Unassign %{username} from topic"
         help: "Unassign %{username} from Topic"
       assign:
         title: "Assign"
@@ -58,6 +57,11 @@ en:
         help: "Edit assignment details"
       reassign_modal:
         title: "Reassign Topic"
+      topic_level_menu:
+        edit_assignments: "Edit assignments..."
+        reassign_topic_to_me: "Reassign topic to me"
+        unassign_from_post: "Unassign @%{username} from post"
+        unassign_from_topic: "Unassign @%{username} from topic"
       assign_modal:
         title: "Assign Topic"
         reassign_title: "Reassign Topic"
