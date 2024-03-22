@@ -114,11 +114,11 @@ function unassignGroupButton(group) {
 
 function unassignUserButton(user) {
   const avatar = avatarHtml(user, "tiny");
-  const label = I18n.t("discourse_assign.unassign.title_w_ellipsis");
+  const label = I18n.t("discourse_assign.topic_level_menu.edit_assignments");
 
   return {
     id: null,
-    name: I18n.t("discourse_assign.reassign_modal.title"),
+    name: htmlSafe(label),
     label: htmlSafe(`${avatar}<span class="unassign-label">${label}</span>`),
   };
 }
