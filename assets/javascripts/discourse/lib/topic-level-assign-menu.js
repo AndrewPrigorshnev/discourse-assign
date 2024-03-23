@@ -198,21 +198,30 @@ function unassignFromPostButtons(topic) {
 }
 
 function unassignFromPostButton(postId, assignment) {
-  const avatar = avatarHtml(assignment.assigned_to, "small");
+  let assignee, icon;
+  const assignedToUser = !!assignment.assigned_to.username;
+  if (assignedToUser) {
+    assignee = assignment.assigned_to.username;
+    icon = avatarHtml(assignment.assigned_to, "small");
+  } else {
+    assignee = assignment.assigned_to.name;
+    icon = iconHTML("group-times");
+  }
+
   const label = I18n.t("discourse_assign.topic_level_menu.unassign_from_post", {
-    username: assignment.assigned_to.username,
+    assignee,
     post_number: assignment.post_number,
   });
   const dataName = I18n.t(
     "discourse_assign.topic_level_menu.unassign_from_post_help",
     {
-      username: assignment.assigned_to.username,
+      assignee,
       post_number: assignment.post_number,
     }
   );
   return {
     id: `unassign-from-post-${postId}`,
     name: htmlSafe(dataName),
-    label: htmlSafe(`${avatar} ${label}`),
+    label: htmlSafe(`${icon} ${label}`),
   };
 }
