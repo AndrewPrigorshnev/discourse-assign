@@ -111,10 +111,14 @@ function unassignGroupButton(group) {
 }
 
 function unassignUsersButton(users) {
-  const avatars = users
-    .slice(0, 2)
-    .map((user) => avatarHtml(user, "tiny"))
-    .join("");
+  let avatars = "";
+  if (users.length === 1) {
+    avatars = avatarHtml(users[0], "tiny");
+  } else if (users.length > 1) {
+    avatars =
+      avatarHtml(users[0], "tiny", "overlap") + avatarHtml(users[1], "tiny");
+  }
+
   const label = `<span class="unassign-label">${I18n.t(
     "discourse_assign.topic_level_menu.unassign_with_ellipsis"
   )}</span>`;
@@ -128,8 +132,12 @@ function unassignUsersButton(users) {
   };
 }
 
-function avatarHtml(user, size) {
-  return renderAvatar(user, { imageSize: size, ignoreTitle: true });
+function avatarHtml(user, size, classes) {
+  return renderAvatar(user, {
+    imageSize: size,
+    extraClasses: classes,
+    ignoreTitle: true,
+  });
 }
 
 function extractPostId(buttonId) {
