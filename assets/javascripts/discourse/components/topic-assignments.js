@@ -29,7 +29,6 @@ export default class TopicAssignments extends Component {
         (a) => a.postNumber === selectedAssignmentId
       );
     }
-    console.log("this.selectedAssignment", this.selectedAssignment);
   }
 
   #toComboBoxOption(assignment) {
