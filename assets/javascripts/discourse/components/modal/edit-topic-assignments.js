@@ -47,9 +47,13 @@ export default class EditTopicAssignments extends Component {
 
   @action
   async submit() {
-    throw "Not implemented"; // fixme andrei
-    // this.args.closeModal();
-    // await this.taskActions.assign(this.model);
+    this.args.closeModal();
+    await this.#assign(this.assignments);
+  }
+
+  async #assign(assignments) {
+    throw "Not implemented";
+    // await this.taskActions.assign(this.assignments);
   }
 }
 
