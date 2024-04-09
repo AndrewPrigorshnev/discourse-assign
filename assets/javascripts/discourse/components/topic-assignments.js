@@ -22,7 +22,7 @@ export default class TopicAssignments extends Component {
     // fixme andrei:
     if (selectedAssignmentId === this.TOPIC_ID) {
       this.selectedAssignment = this.args.assignments.find(
-        (a) => a.type === "Topic"
+        (a) => a.targetType === "Topic"
       );
     } else {
       this.selectedAssignment = this.args.assignments.find(
@@ -32,7 +32,7 @@ export default class TopicAssignments extends Component {
   }
 
   #toComboBoxOption(assignment) {
-    if (assignment.type === "Topic") {
+    if (assignment.targetType === "Topic") {
       return { id: this.TOPIC_ID, name: "Topic" };
     } else {
       return {

@@ -122,7 +122,7 @@ export default class TaskActions extends Service {
       data: {
         username: assignment.username,
         group_name: assignment.group_name, // fixme andrei fix case
-        target_id: assignment.target.id,
+        target_id: assignment.targetId,
         target_type: assignment.targetType,
         note: assignment.note,
         status: assignment.status,

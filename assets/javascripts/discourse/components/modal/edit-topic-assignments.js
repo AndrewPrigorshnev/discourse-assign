@@ -18,6 +18,7 @@ export default class EditTopicAssignments extends Component {
       this.topic.assigned_to_group?.name,
       this.topic.assignment_status,
       this.topic.assignment_note,
+      this.topic.id,
       "Topic"
     );
     this.assignments.push(topicAssignment);
@@ -29,6 +30,7 @@ export default class EditTopicAssignments extends Component {
           a.assigned_to.name,
           a.assignment_status,
           a.assignment_note,
+          -1, // fixme andrei implement
           "Post",
           a.post_number
         )
@@ -52,8 +54,11 @@ export default class EditTopicAssignments extends Component {
   }
 
   async #assign(assignments) {
-    throw "Not implemented";
-    // await this.taskActions.assign(this.assignments);
+    for (const assignment of assignments) {
+      if (assignment.targetType === "Topic") {
+        await this.taskActions.assignAlt(assignment); // fixme andrei showAjaxError
+      }
+    }
   }
 }
 
@@ -62,16 +67,18 @@ class Assignment extends EmberObject {
   @tracked group_name; // fixme andrei fix case
   @tracked status;
   @tracked note;
-  type;
+  targetId;
+  targetType;
   postNumber;
 
-  constructor(username, groupName, status, note, type, postNumber) {
+  constructor(username, groupName, status, note, targetId, targetType, postNumber) {
     super();
     this.username = username;
     this.group_name = groupName;
     this.status = status;
     this.note = note;
-    this.type = type;
+    this.targetId = targetId;
+    this.targetType = targetType;
     this.postNumber = postNumber;
   }
 }
