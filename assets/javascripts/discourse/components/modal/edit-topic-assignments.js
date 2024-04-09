@@ -30,7 +30,7 @@ export default class EditTopicAssignments extends Component {
           a.assigned_to.name,
           a.assignment_status,
           a.assignment_note,
-          -1, // fixme andrei implement
+          a.postId,
           "Post",
           a.post_number
         )
@@ -55,9 +55,7 @@ export default class EditTopicAssignments extends Component {
 
   async #assign(assignments) {
     for (const assignment of assignments) {
-      if (assignment.targetType === "Topic") {
-        await this.taskActions.assignAlt(assignment); // fixme andrei showAjaxError
-      }
+      await this.taskActions.assignAlt(assignment); // fixme andrei showAjaxError
     }
   }
 }
