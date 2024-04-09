@@ -67,7 +67,10 @@ function extendTopicModel(api) {
         return [];
       }
 
-      return Object.values(this.indirectly_assigned_to);
+      return Object.entries(this.indirectly_assigned_to).map(([key, value]) => {
+        value.postId = key;
+        return value;
+      });
     },
 
     isAssigned() {
