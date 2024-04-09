@@ -1,4 +1,4 @@
-import { click, visit } from "@ember/test-helpers";
+import { click, fillIn, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import {
   acceptance,
@@ -9,6 +9,20 @@ import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 
 const topic = topicWithAssignedPost();
 const post = topic.post_stream.posts[1];
+
+const selectors = {
+  assignedTo: ".post-stream article#post_2 .assigned-to",
+  moreButton: ".post-stream .topic-post .more-button",
+  popupMenu: {
+    unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
+    editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus",
+  },
+  modal: {
+    assignee: ".modal-container .select-kit-header-wrapper",
+    assigneeInput: ".modal-container .filter-input",
+    assignButton: ".d-modal__footer .btn-primary",
+  },
+};
 
 acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   needs.user();
@@ -40,12 +54,15 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click("#topic-footer-dropdown-reassign .btn");
 
     await click(`li[data-value='reassign']`);
-    // await pauseTest();
-    // set new assignee
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper"); // fixme andrei get rid of the second click
+    await fillIn(selectors.modal.assigneeInput, "username");
+    await pauseTest();
     // set assignment comment
+    await click(selectors.modal.assignButton);
 
     // check topic assignment
-    assert.ok(true);
+    assert.ok(true); // fixme andrei drop
   });
 
   // fixme andrei better test case name
