@@ -48,6 +48,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await setAssignee(new_assignee_username);
     await setAssignmentNote(note);
     await submitModal();
+    await receiveMessageBusMessage(new_assignee_username);
 
     await pauseTest();
     // check topic assignment
@@ -79,6 +80,17 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
   async function clickEditAssignmentsMenuItem() {
     await click(`li[data-value='reassign']`);
+  }
+
+  async function receiveMessageBusMessage(newAssignee) {
+    await publishToMessageBus("/staff/topic-assignment", {
+      type: "assigned",
+      topic_id: topic.id,
+      assigned_type: "User",
+      assigned_to: {
+        username: newAssignee,
+      },
+    });
   }
 
   async function setAssignee(username) {
