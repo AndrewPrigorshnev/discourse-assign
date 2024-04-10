@@ -51,15 +51,12 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   // fixme andrei better test case name
   test("it lets reassign topic", async function (assert) {
     await visit("/t/assignment-topic/44");
-    await click("#topic-footer-dropdown-reassign .btn");
+    await clickEditAssignmentsButton();
+    await clickEditAssignmentsMenuItem();
 
-    await click(`li[data-value='reassign']`);
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper"); // fixme andrei get rid of the second click
-    await fillIn(selectors.modal.assigneeInput, "username");
-    await pauseTest();
-    // set assignment comment
-    await click(selectors.modal.assignButton);
+    await setAssignee("username");
+    await setAssignmentComment("comment");
+    await submitModal();
 
     // check topic assignment
     assert.ok(true); // fixme andrei drop
@@ -68,8 +65,8 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   // fixme andrei better test case name
   test("it lets reassign posts", async function (assert) {
     await visit("/t/assignment-topic/44");
-    await click("#topic-footer-dropdown-reassign .btn");
-    await click(`li[data-value='reassign']`);
+    await clickEditAssignmentsButton();
+    await clickEditAssignmentsMenuItem();
 
     // choose the first post
     // set new assignee
@@ -83,4 +80,29 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     // check second post assignment
     assert.ok(true);
   });
+
+  async function clickEditAssignmentsButton() {
+    await click("#topic-footer-dropdown-reassign .btn");
+  }
+
+  async function clickEditAssignmentsMenuItem() {
+    await click(`li[data-value='reassign']`);
+  }
+
+  async function setAssignee(username) {
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    // fixme andrei get rid of the second click:
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    await fillIn(selectors.modal.assigneeInput, username);
+  }
+
+  async function setAssignmentComment(comment) {
+    throw "Not Implemented";
+    // set assignment comment
+    // await click(selectors.modal.assignButton);
+  }
+
+  async function submitModal() {
+    await click(selectors.modal.assignButton);
+  }
 });
