@@ -48,14 +48,11 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
     await clickEditAssignmentsMenuItem();
     await setAssignee(new_assignee_username);
-    await setAssignmentNote(note);
     await submitModal();
     await receiveMessageBusMessage(new_assignee_username, appEvents);
 
     await pauseTest();
     // check topic assignment
-    // check small action post: assignment
-    // check small action post: note
   });
 
   // fixme andrei better test case name
@@ -73,11 +70,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     // set assignment comment
 
     // check first post:     assignment
-    // check first post:     small action post: assignment
-    // check first post:     small action post: note
     // check second post:    assignment
-    // check second post:    small action post: assignment
-    // check second post:    small action post: note
     assert.ok(true);
   });
 
@@ -113,10 +106,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     );
     await fillIn(".modal-container .filter-input", username);
     await click(".email-group-user-chooser-row");
-  }
-
-  async function setAssignmentNote(note) {
-    await fillIn("#assign-modal-note", note);
   }
 
   async function submitModal() {
