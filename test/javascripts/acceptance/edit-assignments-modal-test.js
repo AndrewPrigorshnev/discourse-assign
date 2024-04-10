@@ -55,10 +55,15 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
       .hasText(
         new_assignee,
-        "The topic is assigned to the new assignee"
+        "The topic is assigned to a new assignee"
       );
 
-    // fixme andrei check first post:     assignment
+    assert
+      .dom(".post-stream article#post_2 .assigned-to .assigned-to-username")
+      .hasText(
+        another_new_assignee,
+        "The post is assigned to a new assignee"
+      );
   });
 
   async function openModal() {
