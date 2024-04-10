@@ -8,7 +8,7 @@ import {
 import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 
 const topic = topicWithAssignedPost();
-const post = topic.post_stream.posts[1];
+const new_assignee_username = "new_assignee";
 
 const selectors = {
   assignedTo: ".post-stream article#post_2 .assigned-to",
@@ -39,8 +39,11 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     server.get("/assign/suggestions", () =>
       helper.response({
         assign_allowed_for_groups: [],
-        suggestions: [/*{ username: new_assignee_username }*/], // fixme andrei
+        suggestions: [{ username: new_assignee_username }],
       })
+    );
+    server.get("/u/search/users", () =>
+      helper.response({ users: [{ username: new_assignee_username }] })
     );
   });
 
@@ -50,14 +53,17 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
   // fixme andrei better test case name
   test("it lets reassign topic", async function (assert) {
+    const note = "reassigning to another user";
+
     await visit("/t/assignment-topic/44");
     await clickEditAssignmentsButton();
-    await clickEditAssignmentsMenuItem();
 
-    await setAssignee("username");
-    await setAssignmentComment("comment");
+    await clickEditAssignmentsMenuItem();
+    await setAssignee(new_assignee_username);
+    await setAssignmentNote(note);
     await submitModal();
 
+    await pauseTest();
     // check topic assignment
     assert.ok(true); // fixme andrei drop
   });
@@ -90,16 +96,19 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   }
 
   async function setAssignee(username) {
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    await click(
+      ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
+    );
     // fixme andrei get rid of the second click:
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    await click(
+      ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
+    );
     await fillIn(selectors.modal.assigneeInput, username);
+    await click(".email-group-user-chooser-row");
   }
 
-  async function setAssignmentComment(comment) {
-    throw "Not Implemented";
-    // set assignment comment
-    // await click(selectors.modal.assignButton);
+  async function setAssignmentNote(note) {
+    await fillIn("#assign-modal-note", note);
   }
 
   async function submitModal() {
