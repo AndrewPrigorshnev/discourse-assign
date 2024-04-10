@@ -18,7 +18,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
   needs.pretender((server, helper) => {
     server.get("/t/44.json", () => helper.response(topic));
-    server.put("/assign/unassign", () => {
+    server.put("/assign/assign", () => {
       return helper.response({ success: true });
     });
 
