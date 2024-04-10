@@ -4,7 +4,6 @@ import { test } from "qunit";
 import {
   acceptance,
   publishToMessageBus,
-  updateCurrentUser,
 } from "discourse/tests/helpers/qunit-helpers";
 import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 
@@ -12,7 +11,7 @@ const topic = topicWithAssignedPost();
 const new_assignee_username = "new_assignee";
 
 acceptance("Discourse Assign | Edit assignments modal", function (needs) {
-  needs.user();
+  needs.user({ can_assign: true });
   needs.settings({
     assign_enabled: true,
   });
@@ -32,10 +31,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     server.get("/u/search/users", () =>
       helper.response({ users: [{ username: new_assignee_username }] })
     );
-  });
-
-  needs.hooks.beforeEach(() => {
-    updateCurrentUser({ can_assign: true });
   });
 
   // fixme andrei better test case name
