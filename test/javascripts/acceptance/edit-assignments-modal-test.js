@@ -1,3 +1,4 @@
+import { getOwner } from "@ember/application";
 import { click, fillIn, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import {
@@ -39,6 +40,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
   // fixme andrei better test case name
   test("it lets reassign topic", async function (assert) {
+    const appEvents = getOwner(this).lookup("service:app-events");
     const note = "reassigning to another user";
 
     await visit("/t/assignment-topic/44");
@@ -48,7 +50,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await setAssignee(new_assignee_username);
     await setAssignmentNote(note);
     await submitModal();
-    await receiveMessageBusMessage(new_assignee_username);
+    await receiveMessageBusMessage(new_assignee_username, appEvents);
 
     await pauseTest();
     // check topic assignment
@@ -87,15 +89,18 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(`li[data-value='reassign']`);
   }
 
-  async function receiveMessageBusMessage(newAssignee) {
+  async function receiveMessageBusMessage(newAssignee, appEvents) {
     await publishToMessageBus("/staff/topic-assignment", {
       type: "assigned",
       topic_id: topic.id,
+      post_id: false,
       assigned_type: "User",
       assigned_to: {
         username: newAssignee,
       },
     });
+    // fixme andrei get rid of this:
+    appEvents.trigger("post-stream:refresh", {id: topic.post_stream.posts[0].id});
   }
 
   async function setAssignee(username) {
