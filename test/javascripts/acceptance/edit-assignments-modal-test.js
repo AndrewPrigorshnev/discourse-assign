@@ -52,7 +52,8 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
     await pauseTest();
     // check topic assignment
-    assert.ok(true); // fixme andrei drop
+    // check small action post: assignment
+    // check small action post: note
   });
 
   // fixme andrei better test case name
@@ -69,8 +70,12 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     // set new assignee
     // set assignment comment
 
-    // check first post assignment
-    // check second post assignment
+    // check first post:     assignment
+    // check first post:     small action post: assignment
+    // check first post:     small action post: note
+    // check second post:    assignment
+    // check second post:    small action post: assignment
+    // check second post:    small action post: note
     assert.ok(true);
   });
 
