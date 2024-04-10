@@ -3,12 +3,15 @@ import { click, fillIn, settled, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import {
   acceptance,
+  query,
+  queryAll,
   publishToMessageBus,
 } from "discourse/tests/helpers/qunit-helpers";
 import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 
 const topic = topicWithAssignedPost();
-const new_assignee_username = "new_assignee";
+const new_assignee = "user_1";
+const another_new_assignee = "user_2";
 
 acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   needs.user({ can_assign: true });
@@ -25,11 +28,11 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     server.get("/assign/suggestions", () =>
       helper.response({
         assign_allowed_for_groups: [],
-        suggestions: [{ username: new_assignee_username }],
+        suggestions: [{ username: new_assignee }],
       })
     );
     server.get("/u/search/users", () =>
-      helper.response({ users: [{ username: new_assignee_username }] })
+      helper.response({ users: [{ username: new_assignee }] })
     );
   });
 
@@ -41,14 +44,14 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await clickEditAssignmentsButton();
 
     await clickEditAssignmentsMenuItem();
-    await setAssignee(new_assignee_username);
+    await setAssignee(new_assignee);
     await submitModal();
-    await receiveMessageBusMessage(new_assignee_username, appEvents);
+    await receiveMessageBusMessage(new_assignee, appEvents);
 
     assert
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
       .hasText(
-        new_assignee_username,
+        new_assignee,
         "The topic is assigned to the new assignee"
       );
   });
@@ -59,17 +62,15 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await clickEditAssignmentsButton();
     await clickEditAssignmentsMenuItem();
 
-    // choose the first post
-    // set new assignee
-    // set assignment comment
+    await selectPost(1);
+    await setAssignee(new_assignee);
 
     // choose the second post
-    // set new assignee
-    // set assignment comment
+    await setAssignee(another_new_assignee);
+
 
     // check first post:     assignment
     // check second post:    assignment
-    assert.ok(true);
   });
 
   async function clickEditAssignmentsButton() {
@@ -93,6 +94,11 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     // fixme andrei get rid of this:
     appEvents.trigger("post-stream:refresh", {id: topic.post_stream.posts[0].id});
     await settled();
+  }
+
+  async function selectPost(number) {
+    await click(".target .single-select .select-kit-header-wrapper");
+    await click(`li[title='Post #${number}']`);
   }
 
   async function setAssignee(username) {
