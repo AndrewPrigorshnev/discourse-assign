@@ -28,11 +28,11 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     server.get("/assign/suggestions", () =>
       helper.response({
         assign_allowed_for_groups: [],
-        suggestions: [{ username: new_assignee }],
+        suggestions: [{ username: new_assignee }, { username: another_new_assignee }],
       })
     );
     server.get("/u/search/users", () =>
-      helper.response({ users: [{ username: new_assignee }] })
+      helper.response({ users: [{ username: new_assignee }, { username: another_new_assignee }] })
     );
   });
 
@@ -43,7 +43,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await visit("/t/assignment-topic/44");
     await openModal();
 
-    await clickEditAssignmentsMenuItem();
     await setAssignee(new_assignee);
     await selectPost(1);
     await setAssignee(another_new_assignee);
@@ -68,9 +67,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
   async function openModal() {
     await click("#topic-footer-dropdown-reassign .btn");
-  }
-
-  async function clickEditAssignmentsMenuItem() {
     await click(`li[data-value='reassign']`);
   }
 
@@ -102,8 +98,13 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(
       ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
     );
+    await pauseTest();
     await fillIn(".modal-container .filter-input", username);
+    await pauseTest();
+
     await click(".email-group-user-chooser-row");
+    await pauseTest();
+
   }
 
   async function submitModal() {
