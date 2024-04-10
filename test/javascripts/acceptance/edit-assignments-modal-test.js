@@ -10,20 +10,6 @@ import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 const topic = topicWithAssignedPost();
 const new_assignee_username = "new_assignee";
 
-const selectors = {
-  assignedTo: ".post-stream article#post_2 .assigned-to",
-  moreButton: ".post-stream .topic-post .more-button",
-  popupMenu: {
-    unassign: ".popup-menu .popup-menu-btn svg.d-icon-user-plus",
-    editAssignment: ".popup-menu .popup-menu-btn svg.d-icon-group-plus",
-  },
-  modal: {
-    assignee: ".modal-container .select-kit-header-wrapper",
-    assigneeInput: ".modal-container .filter-input",
-    assignButton: ".d-modal__footer .btn-primary",
-  },
-};
-
 acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   needs.user();
   needs.settings({
@@ -103,7 +89,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(
       ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
     );
-    await fillIn(selectors.modal.assigneeInput, username);
+    await fillIn(".modal-container .filter-input", username);
     await click(".email-group-user-chooser-row");
   }
 
@@ -112,6 +98,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   }
 
   async function submitModal() {
-    await click(selectors.modal.assignButton);
+    await click(".d-modal__footer .btn-primary");
   }
 });
