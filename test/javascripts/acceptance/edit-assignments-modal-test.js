@@ -66,7 +66,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     // set new assignee
     // set assignment comment
 
-    // choose yje second post
+    // choose the second post
     // set new assignee
     // set assignment comment
 
