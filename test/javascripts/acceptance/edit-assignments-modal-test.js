@@ -36,7 +36,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   // fixme andrei better test case name
   test("it lets reassign topic", async function (assert) {
     const appEvents = getOwner(this).lookup("service:app-events");
-    const note = "reassigning to another user";
 
     await visit("/t/assignment-topic/44");
     await clickEditAssignmentsButton();
