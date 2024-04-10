@@ -1,5 +1,5 @@
 import { getOwner } from "@ember/application";
-import { click, fillIn, visit } from "@ember/test-helpers";
+import { click, fillIn, settled, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import {
   acceptance,
@@ -45,8 +45,12 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await submitModal();
     await receiveMessageBusMessage(new_assignee_username, appEvents);
 
-    await pauseTest();
-    // check topic assignment
+    assert
+      .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
+      .hasText(
+        new_assignee_username,
+        "The topic is assigned to the new assignee"
+      );
   });
 
   // fixme andrei better test case name
@@ -88,6 +92,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     });
     // fixme andrei get rid of this:
     appEvents.trigger("post-stream:refresh", {id: topic.post_stream.posts[0].id});
+    await settled();
   }
 
   async function setAssignee(username) {
