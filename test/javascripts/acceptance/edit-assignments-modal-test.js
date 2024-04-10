@@ -25,14 +25,20 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
       return helper.response({ success: true });
     });
 
+    const suggestions = [
+      { username: new_assignee },
+      { username: another_new_assignee },
+    ];
     server.get("/assign/suggestions", () =>
       helper.response({
         assign_allowed_for_groups: [],
-        suggestions: [{ username: new_assignee }, { username: another_new_assignee }],
+        suggestions,
       })
     );
     server.get("/u/search/users", () =>
-      helper.response({ users: [{ username: new_assignee }, { username: another_new_assignee }] })
+      helper.response({
+        users: suggestions,
+      })
     );
   });
 
@@ -42,27 +48,22 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
     await visit("/t/assignment-topic/44");
     await openModal();
+    await selectAssignee(new_assignee);
 
-    await setAssignee(new_assignee);
     await selectPost(1);
-    await setAssignee(another_new_assignee);
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    await selectAssignee(another_new_assignee);
 
     await submitModal();
     await receiveMessageBusMessage(new_assignee, appEvents);
 
     assert
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
-      .hasText(
-        new_assignee,
-        "The topic is assigned to a new assignee"
-      );
+      .hasText(new_assignee, "The topic is assigned to a new assignee");
 
     assert
       .dom(".post-stream article#post_2 .assigned-to .assigned-to-username")
-      .hasText(
-        another_new_assignee,
-        "The post is assigned to a new assignee"
-      );
+      .hasText(another_new_assignee, "The post is assigned to a new assignee");
   });
 
   async function openModal() {
@@ -81,7 +82,9 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
       },
     });
     // fixme andrei get rid of this:
-    appEvents.trigger("post-stream:refresh", {id: topic.post_stream.posts[0].id});
+    appEvents.trigger("post-stream:refresh", {
+      id: topic.post_stream.posts[0].id,
+    });
     await settled();
   }
 
@@ -90,21 +93,20 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(`li[title='Post #${number}']`);
   }
 
-  async function setAssignee(username) {
-    await click(
-      ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
-    );
+  async function selectAssignee(username) {
+    // await pauseTest();
+    // await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    // await pauseTest();
+
     // fixme andrei get rid of the second click:
-    await click(
-      ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
-    );
-    await pauseTest();
-    await fillIn(".modal-container .filter-input", username);
-    await pauseTest();
+    // await click(
+    //   ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
+    // );
+    // await pauseTest();
+    // await fillIn(".modal-container .filter-input", username);
+    // await pauseTest();
 
     await click(".email-group-user-chooser-row");
-    await pauseTest();
-
   }
 
   async function submitModal() {
