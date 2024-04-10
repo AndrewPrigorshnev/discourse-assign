@@ -37,14 +37,17 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   });
 
   // fixme andrei better test case name
-  test("it lets reassign topic", async function (assert) {
+  test("it lets reassign topic and posts in one go", async function (assert) {
     const appEvents = getOwner(this).lookup("service:app-events");
 
     await visit("/t/assignment-topic/44");
-    await clickEditAssignmentsButton();
+    await openModal();
 
     await clickEditAssignmentsMenuItem();
     await setAssignee(new_assignee);
+    await selectPost(1);
+    await setAssignee(another_new_assignee);
+
     await submitModal();
     await receiveMessageBusMessage(new_assignee, appEvents);
 
@@ -54,26 +57,11 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
         new_assignee,
         "The topic is assigned to the new assignee"
       );
+
+    // fixme andrei check first post:     assignment
   });
 
-  // fixme andrei better test case name
-  test("it lets reassign posts", async function (assert) {
-    await visit("/t/assignment-topic/44");
-    await clickEditAssignmentsButton();
-    await clickEditAssignmentsMenuItem();
-
-    await selectPost(1);
-    await setAssignee(new_assignee);
-
-    // choose the second post
-    await setAssignee(another_new_assignee);
-
-
-    // check first post:     assignment
-    // check second post:    assignment
-  });
-
-  async function clickEditAssignmentsButton() {
+  async function openModal() {
     await click("#topic-footer-dropdown-reassign .btn");
   }
 
