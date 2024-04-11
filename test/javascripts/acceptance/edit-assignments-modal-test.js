@@ -52,7 +52,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await selectAssignee(new_assignee);
 
     await selectPost(1);
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper"); // fixme andrei
 
     await selectAssignee(another_new_assignee);
 
@@ -115,18 +115,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   }
 
   async function selectAssignee(username) {
-    // await pauseTest();
-    // await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
-    // await pauseTest();
-
-    // fixme andrei get rid of the second click:
-    // await click(
-    //   ".modal-container #assignee-chooser-header .select-kit-header-wrapper"
-    // );
-    // await pauseTest();
-    // await fillIn(".modal-container .filter-input", username);
-    // await pauseTest();
-
     await click(".email-group-user-chooser-row");
   }
 
