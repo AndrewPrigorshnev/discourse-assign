@@ -1,10 +1,8 @@
 import { getOwner } from "@ember/application";
-import { click, fillIn, settled, visit } from "@ember/test-helpers";
+import { click, settled, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import {
   acceptance,
-  query,
-  queryAll,
   publishToMessageBus,
 } from "discourse/tests/helpers/qunit-helpers";
 import topicWithAssignedPosts from "../fixtures/topic-with-assigned-posts";
