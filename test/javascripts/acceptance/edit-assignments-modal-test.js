@@ -10,7 +10,7 @@ import {
 import topicWithAssignedPosts from "../fixtures/topic-with-assigned-posts";
 
 const topic = topicWithAssignedPosts();
-const firstReply = topic.post_stream.posts[0];
+const firstReply = topic.post_stream.posts[1];
 const new_assignee_1 = "user_1";
 const new_assignee_2 = "user_2";
 
