@@ -7,9 +7,9 @@ import {
   queryAll,
   publishToMessageBus,
 } from "discourse/tests/helpers/qunit-helpers";
-import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
+import topicWithAssignedPosts from "../fixtures/topic-with-assigned-posts";
 
-const topic = topicWithAssignedPost();
+const topic = topicWithAssignedPosts();
 const firstReply = topic.post_stream.posts[0];
 const new_assignee_1 = "user_1";
 const new_assignee_2 = "user_2";
