@@ -41,6 +41,44 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     );
   });
 
+  test("reassigning topic", async function (assert) {
+    await visit("/t/assignment-topic/44");
+    await openModal();
+    await selectAssignee(new_assignee_1);
+
+    await submitModal();
+    await receiveAssignedMessage(topic, new_assignee_1);
+
+    assert
+      .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
+      .hasText(new_assignee_1, "The topic is assigned to a new assignee");
+  });
+
+  test("reassigning posts", async function (assert) {
+    await visit("/t/assignment-topic/44");
+    await openModal();
+
+    await selectPost(1);
+    await expandAssigneeChooser();
+    await selectAssignee(new_assignee_1);
+
+    await selectPost(2);
+    await expandAssigneeChooser();
+    await selectAssignee(new_assignee_2);
+
+    await submitModal();
+    await receiveAssignedMessage(firstReply, new_assignee_1);
+    await receiveAssignedMessage(secondReply, new_assignee_2);
+
+    assert
+      .dom(".post-stream article#post_2 .assigned-to .assigned-to-username")
+      .hasText(new_assignee_1, "The first reply is assigned to a new assignee");
+
+    assert
+      .dom(".post-stream article#post_3 .assigned-to .assigned-to-username")
+      .hasText(new_assignee_2, "The second reply is assigned to a new assignee");
+  });
+
   test("reassigning topic and posts in one go", async function (assert) {
     await visit("/t/assignment-topic/44");
     await openModal();
