@@ -116,6 +116,7 @@ export default class TaskActions extends Service {
     }
   }
 
+  // fixme andrei better name
   async assignAlt(assignment) {
     await ajax("/assign/assign", {
       type: "PUT",
