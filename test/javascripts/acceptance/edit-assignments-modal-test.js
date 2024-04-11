@@ -85,10 +85,10 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   // (there is no need to wait for a message bus message in the browser of a user
   // who did reassignment)
   async function receiveAssignedMessage(target, newAssignee) {
-    const targetIsPost = !!target.topic_id;
+    const targetIsAPost = !!target.topic_id;
 
     let topicId, postId;
-    if (targetIsPost) {
+    if (targetIsAPost) {
       topicId = target.topic_id;
       postId = target.id;
     } else {
