@@ -11,8 +11,8 @@ import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 
 const topic = topicWithAssignedPost();
 const firstReply = topic.post_stream.posts[0];
-const new_assignee = "user_1";
-const another_new_assignee = "user_2";
+const new_assignee_1 = "user_1";
+const new_assignee_2 = "user_2";
 
 acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   needs.user({ can_assign: true });
@@ -27,8 +27,8 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     });
 
     const suggestions = [
-      { username: new_assignee },
-      { username: another_new_assignee },
+      { username: new_assignee_1 },
+      { username: new_assignee_2 },
     ];
     server.get("/assign/suggestions", () =>
       helper.response({
@@ -49,23 +49,23 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
     await visit("/t/assignment-topic/44");
     await openModal();
-    await selectAssignee(new_assignee);
+    await selectAssignee(new_assignee_1);
 
     await selectPost(1);
     await expandAssigneeChooser();
-    await selectAssignee(another_new_assignee);
+    await selectAssignee(new_assignee_2);
 
     await submitModal();
-    await receiveTopicAssignedMessage(new_assignee, appEvents);
-    await receivePostAssignedMessage(firstReply, another_new_assignee, appEvents);
+    await receiveTopicAssignedMessage(new_assignee_1, appEvents);
+    await receivePostAssignedMessage(firstReply, new_assignee_2, appEvents);
 
     assert
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
-      .hasText(new_assignee, "The topic is assigned to a new assignee");
+      .hasText(new_assignee_1, "The topic is assigned to a new assignee");
 
     assert
       .dom(".post-stream article#post_2 .assigned-to .assigned-to-username")
-      .hasText(another_new_assignee, "The post is assigned to a new assignee");
+      .hasText(new_assignee_2, "The post is assigned to a new assignee");
   });
 
   async function expandAssigneeChooser() {
