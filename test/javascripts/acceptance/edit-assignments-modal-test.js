@@ -73,7 +73,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   });
 
   async function expandAssigneeChooser() {
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper"); // fixme andrei
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
   }
 
   async function openModal() {
