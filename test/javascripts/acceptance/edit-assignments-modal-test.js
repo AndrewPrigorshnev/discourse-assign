@@ -52,10 +52,8 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await selectAssignee(new_assignee);
 
     await selectPost(1);
-    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper"); // fixme andrei
-
+    await expandAssigneeChooser();
     await selectAssignee(another_new_assignee);
-
 
     await submitModal();
     await receiveTopicAssignedMessage(new_assignee, appEvents);
@@ -69,6 +67,10 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
       .dom(".post-stream article#post_2 .assigned-to .assigned-to-username")
       .hasText(another_new_assignee, "The post is assigned to a new assignee");
   });
+
+  async function expandAssigneeChooser() {
+    await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper"); // fixme andrei
+  }
 
   async function openModal() {
     await click("#topic-footer-dropdown-reassign .btn");
