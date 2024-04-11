@@ -1,9 +1,9 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-import EmberObject from "@ember/object";
 import { inject as service } from "@ember/service";
 import I18n from "I18n";
+import { Assignment } from "../../models/assignment";
 
 // fixme andrei validation?
 export default class EditTopicAssignments extends Component {
@@ -57,26 +57,5 @@ export default class EditTopicAssignments extends Component {
     for (const assignment of assignments) {
       await this.taskActions.assignAlt(assignment); // fixme andrei showAjaxError
     }
-  }
-}
-
-class Assignment extends EmberObject {
-  @tracked username;
-  @tracked group_name; // fixme andrei fix case
-  @tracked status;
-  @tracked note;
-  targetId;
-  targetType;
-  postNumber;
-
-  constructor(username, groupName, status, note, targetId, targetType, postNumber) {
-    super();
-    this.username = username;
-    this.group_name = groupName;
-    this.status = status;
-    this.note = note;
-    this.targetId = targetId;
-    this.targetType = targetType;
-    this.postNumber = postNumber;
   }
 }
