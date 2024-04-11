@@ -115,7 +115,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   }
 
   async function selectAssignee(username) {
-    await click(".email-group-user-chooser-row");
+    await click(`.email-group-user-chooser-row[data-value='${username}']`);
   }
 
   async function submitModal() {
