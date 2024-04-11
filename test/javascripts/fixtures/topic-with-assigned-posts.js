@@ -18,7 +18,7 @@ export default function topicWithAssignedPosts() {
       assigned_to: {
         username,
       },
-      post_number: 1,
+      post_number: 2,
     },
   };
   firstReply["assigned_to_user"] = { username };
