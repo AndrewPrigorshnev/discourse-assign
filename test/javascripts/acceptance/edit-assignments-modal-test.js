@@ -10,6 +10,7 @@ import {
 import topicWithAssignedPost from "../fixtures/topic-with-assigned-post";
 
 const topic = topicWithAssignedPost();
+const firstReply = topic.post_stream.posts[0];
 const new_assignee = "user_1";
 const another_new_assignee = "user_2";
 
@@ -52,10 +53,13 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
     await selectPost(1);
     await click(".modal-container #assignee-chooser-header .select-kit-header-wrapper");
+
     await selectAssignee(another_new_assignee);
 
+
     await submitModal();
-    await receiveMessageBusMessage(new_assignee, appEvents);
+    await receiveTopicAssignedMessage(new_assignee, appEvents);
+    await receivePostAssignedMessage(firstReply, another_new_assignee, appEvents);
 
     assert
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
@@ -71,7 +75,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(`li[data-value='reassign']`);
   }
 
-  async function receiveMessageBusMessage(newAssignee, appEvents) {
+  async function receiveTopicAssignedMessage(newAssignee, appEvents) {
     await publishToMessageBus("/staff/topic-assignment", {
       type: "assigned",
       topic_id: topic.id,
@@ -84,6 +88,23 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     // fixme andrei get rid of this:
     appEvents.trigger("post-stream:refresh", {
       id: topic.post_stream.posts[0].id,
+    });
+    await settled();
+  }
+
+  async function receivePostAssignedMessage(post, newAssignee, appEvents) {
+    await publishToMessageBus("/staff/topic-assignment", {
+      type: "assigned",
+      topic_id: topic.id,
+      post_id: post.id,
+      assigned_type: "User",
+      assigned_to: {
+        username: newAssignee,
+      },
+    });
+    // fixme andrei get rid of this:
+    appEvents.trigger("post-stream:refresh", {
+      id: post.id,
     });
     await settled();
   }
