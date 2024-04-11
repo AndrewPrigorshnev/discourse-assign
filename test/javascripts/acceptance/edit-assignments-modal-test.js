@@ -43,8 +43,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     );
   });
 
-  // fixme andrei better test case name
-  test("it lets reassign topic and posts in one go", async function (assert) {
+  test("reassigning topic and posts in one go", async function (assert) {
     const appEvents = getOwner(this).lookup("service:app-events");
 
     await visit("/t/assignment-topic/44");
