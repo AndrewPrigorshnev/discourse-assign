@@ -1,4 +1,3 @@
-import { getOwner } from "@ember/application";
 import { click, settled, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import {
@@ -43,8 +42,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
   });
 
   test("reassigning topic and posts in one go", async function (assert) {
-    const appEvents = getOwner(this).lookup("service:app-events");
-
     await visit("/t/assignment-topic/44");
     await openModal();
     await selectAssignee(new_assignee_1);
@@ -58,9 +55,9 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await selectAssignee(new_assignee_2);
 
     await submitModal();
-    await receiveTopicAssignedMessage(new_assignee_1, appEvents);
-    await receivePostAssignedMessage(firstReply, new_assignee_2, appEvents);
-    await receivePostAssignedMessage(secondReply, new_assignee_2, appEvents);
+    await receiveTopicAssignedMessage(new_assignee_1);
+    await receivePostAssignedMessage(firstReply, new_assignee_2);
+    await receivePostAssignedMessage(secondReply, new_assignee_2);
 
     assert
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
@@ -84,7 +81,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(`li[data-value='reassign']`);
   }
 
-  async function receiveTopicAssignedMessage(newAssignee, appEvents) {
+  async function receiveTopicAssignedMessage(newAssignee) {
     await publishToMessageBus("/staff/topic-assignment", {
       type: "assigned",
       topic_id: topic.id,
@@ -94,14 +91,10 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
         username: newAssignee,
       },
     });
-    // fixme andrei get rid of this:
-    appEvents.trigger("post-stream:refresh", {
-      id: topic.post_stream.posts[0].id,
-    });
     await settled();
   }
 
-  async function receivePostAssignedMessage(post, newAssignee, appEvents) {
+  async function receivePostAssignedMessage(post, newAssignee) {
     await publishToMessageBus("/staff/topic-assignment", {
       type: "assigned",
       topic_id: topic.id,
@@ -110,10 +103,6 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
       assigned_to: {
         username: newAssignee,
       },
-    });
-    // fixme andrei get rid of this:
-    appEvents.trigger("post-stream:refresh", {
-      id: post.id,
     });
     await settled();
   }
