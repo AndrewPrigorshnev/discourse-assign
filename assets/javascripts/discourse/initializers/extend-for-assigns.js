@@ -688,7 +688,6 @@ function initialize(api) {
       this._super(...arguments);
 
       this.messageBus.subscribe("/staff/topic-assignment", (data) => {
-        console.log("message bus");
         const topic = this.model;
         const topicId = topic.id;
 
@@ -733,6 +732,9 @@ function initialize(api) {
           }
         }
         this.appEvents.trigger("header:update-topic", topic);
+        this.appEvents.trigger("post-stream:refresh", {
+          id: topic.postStream.posts[0].id,
+        });
       });
     },
 
