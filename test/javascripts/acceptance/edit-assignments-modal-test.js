@@ -64,7 +64,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
     assert
       .dom(".post-stream article#post_2 .assigned-to .assigned-to-username")
-      .hasText(new_assignee_2, "The post is assigned to a new assignee");
+      .hasText(new_assignee_2, "The first reply is assigned to a new assignee");
   });
 
   async function expandAssigneeChooser() {
