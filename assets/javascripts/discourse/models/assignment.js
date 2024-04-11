@@ -13,6 +13,18 @@ export class Assignment extends EmberObject {
     );
   }
 
+  static fromPostAssignment(postAssignment) {
+    return new Assignment(
+      postAssignment.assigned_to.username,
+      postAssignment.assigned_to.name,
+      postAssignment.assignment_status,
+      postAssignment.assignment_note,
+      postAssignment.postId,
+      "Post",
+      postAssignment.post_number
+    );
+  }
+
   // to-do rename to groupName, some components use both this model
   // and models from server, that's why we have to call it "group_name" now
   @tracked group_name;

@@ -5,28 +5,18 @@ import { inject as service } from "@ember/service";
 import I18n from "I18n";
 import { Assignment } from "../../models/assignment";
 
-// fixme andrei validation?
 export default class EditTopicAssignments extends Component {
   @service taskActions;
   @tracked assignments = [];
 
   constructor() {
     super(...arguments);
+
+    // fixme simplify further
     const topicAssignment = Assignment.fromTopic(this.topic);
     this.assignments.push(topicAssignment);
-
     this.topic.assignedPosts().forEach((a) => {
-      this.assignments.push(
-        new Assignment(
-          a.assigned_to.username,
-          a.assigned_to.name,
-          a.assignment_status,
-          a.assignment_note,
-          a.postId,
-          "Post",
-          a.post_number
-        )
-      );
+      this.assignments.push(Assignment.fromPostAssignment(a));
     });
   }
 
