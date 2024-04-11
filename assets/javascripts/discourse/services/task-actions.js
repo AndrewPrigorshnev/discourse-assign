@@ -121,7 +121,7 @@ export default class TaskActions extends Service {
       type: "PUT",
       data: {
         username: assignment.username,
-        group_name: assignment.group_name, // fixme andrei fix case
+        group_name: assignment.group_name,
         target_id: assignment.targetId,
         target_type: assignment.targetType,
         note: assignment.note,
