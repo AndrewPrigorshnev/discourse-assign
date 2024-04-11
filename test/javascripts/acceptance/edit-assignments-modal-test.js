@@ -55,9 +55,9 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await selectAssignee(new_assignee_2);
 
     await submitModal();
-    await receiveTopicAssignedMessage(new_assignee_1);
-    await receivePostAssignedMessage(firstReply, new_assignee_2);
-    await receivePostAssignedMessage(secondReply, new_assignee_2);
+    await receiveAssignedMessage(topic, new_assignee_1);
+    await receiveAssignedMessage(firstReply, new_assignee_2);
+    await receiveAssignedMessage(secondReply, new_assignee_2);
 
     assert
       .dom(".post-stream article#post_1 .assigned-to .assigned-to--user a")
@@ -81,24 +81,25 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
     await click(`li[data-value='reassign']`);
   }
 
-  async function receiveTopicAssignedMessage(newAssignee) {
-    await publishToMessageBus("/staff/topic-assignment", {
-      type: "assigned",
-      topic_id: topic.id,
-      post_id: false,
-      assigned_type: "User",
-      assigned_to: {
-        username: newAssignee,
-      },
-    });
-    await settled();
-  }
+  // todo remove this function and all calls to it after we start updating UI right away
+  // (there is no need to wait for a message bus message in the browser of a user
+  // who did reassignment)
+  async function receiveAssignedMessage(target, newAssignee) {
+    const targetIsPost = !!target.topic_id;
 
-  async function receivePostAssignedMessage(post, newAssignee) {
+    let topicId, postId;
+    if (targetIsPost) {
+      topicId = target.topic_id;
+      postId = target.id;
+    } else {
+      topicId = target.id;
+      postId = false;
+    }
+
     await publishToMessageBus("/staff/topic-assignment", {
       type: "assigned",
-      topic_id: topic.id,
-      post_id: post.id,
+      topic_id: topicId,
+      post_id: postId,
       assigned_type: "User",
       assigned_to: {
         username: newAssignee,
