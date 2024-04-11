@@ -18,6 +18,7 @@ import BulkAssign from "../components/bulk-actions/assign-user";
 import BulkActionsAssignUser from "../components/bulk-actions/bulk-assign-user";
 import TopicLevelAssignMenu from "../components/topic-level-assign-menu";
 import EditTopicAssignments from "../components/modal/edit-topic-assignments";
+import { extendTopicModel } from "../models/topic";
 
 const PLUGIN_ID = "discourse-assign";
 
@@ -37,54 +38,6 @@ function defaultTitle(topic) {
   } else {
     return I18n.t("discourse_assign.assign.help");
   }
-}
-
-function extendTopicModel(api) {
-  api.modifyClass("model:topic", {
-    pluginId: PLUGIN_ID,
-
-    assignees() {
-      const result = [];
-
-      if (this.assigned_to_user) {
-        result.push(this.assigned_to_user);
-      }
-
-      const postAssignees = this.assignedPosts().map((p) => p.assigned_to);
-      result.push(...postAssignees);
-      return result;
-    },
-
-    uniqueAssignees() {
-      const map = new Map();
-      this.assignees().forEach((user) => map.set(user.username, user));
-      return [...map.values()];
-    },
-
-    // fixme andrei rename to postAssignment()
-    assignedPosts() {
-      if (!this.indirectly_assigned_to) {
-        return [];
-      }
-
-      return Object.entries(this.indirectly_assigned_to).map(([key, value]) => {
-        value.postId = key;
-        return value;
-      });
-    },
-
-    isAssigned() {
-      return this.assigned_to_user || this.assigned_to_group;
-    },
-
-    isAssignedTo(user) {
-      return this.assigned_to_user?.username === user.username;
-    },
-
-    hasAssignedPosts() {
-      return !!this.assignedPosts().length;
-    },
-  });
 }
 
 function registerTopicFooterButtons(api) {
@@ -845,7 +798,7 @@ export default {
     }
 
     withPluginApi("0.13.0", (api) => {
-      extendTopicModel(api);
+      extendTopicModel(api, PLUGIN_ID);
       initialize(api);
       registerTopicFooterButtons(api);
 
