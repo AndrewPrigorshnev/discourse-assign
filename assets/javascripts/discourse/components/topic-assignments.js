@@ -8,7 +8,7 @@ export default class TopicAssignments extends Component {
 
   constructor() {
     super(...arguments);
-    this.synchronizeAssignment(0); // fixme andrei
+    this.selectAssignment(0);
   }
 
   get assignmentOptions() {
@@ -16,7 +16,7 @@ export default class TopicAssignments extends Component {
   }
 
   @action
-  synchronizeAssignment(selectedAssignmentId) {
+  selectAssignment(selectedAssignmentId) {
     this.selectedAssignmentId = selectedAssignmentId;
     // fixme andrei:
     if (selectedAssignmentId === 0) {
