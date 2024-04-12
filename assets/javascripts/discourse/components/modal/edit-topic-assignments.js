@@ -37,7 +37,9 @@ export default class EditTopicAssignments extends Component {
 
   async #assign(assignments) {
     for (const assignment of assignments) {
-      await this.taskActions.assignAlt(assignment); // fixme andrei showAjaxError
+      if (assignment.isEdited) {
+        await this.taskActions.putAssignment(assignment); // fixme andrei showAjaxError
+      }
     }
   }
 }

@@ -43,6 +43,11 @@ export default class Assignment extends Component {
   }
 
   @action
+  markAsEdited() {
+    this.args.assignment.isEdited = true;
+  }
+
+  @action
   setAssignee([newAssignee]) {
     if (this.taskActions.allowedGroupsForAssignment.includes(newAssignee)) {
       this.args.assignment.username = null;
@@ -51,5 +56,6 @@ export default class Assignment extends Component {
       this.args.assignment.username = newAssignee;
       this.args.assignment.group_name = null;
     }
+    this.markAsEdited();
   }
 }

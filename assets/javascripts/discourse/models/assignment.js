@@ -34,4 +34,5 @@ export class Assignment extends EmberObject {
   targetId;
   targetType;
   postNumber;
+  isEdited = false;
 }
