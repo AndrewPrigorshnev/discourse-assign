@@ -51,5 +51,6 @@
     id="assign-modal-note"
     @value={{@assignment.note}}
     {{on "keydown" this.handleTextAreaKeydown}}
+    {{on "input" this.markAsEdited}}
   />
 </div>
