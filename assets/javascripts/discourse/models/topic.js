@@ -44,6 +44,10 @@ export function extendTopicModel(api, pluginId) {
       });
     },
 
+    topicAssignment() {
+      return Assignment.fromTopic(this);
+    },
+
     isAssigned() {
       return this.assigned_to_user || this.assigned_to_group;
     },

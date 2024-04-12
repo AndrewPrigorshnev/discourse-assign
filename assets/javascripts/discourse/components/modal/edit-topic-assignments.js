@@ -14,8 +14,7 @@ export default class EditTopicAssignments extends Component {
     super(...arguments);
 
     // fixme simplify further
-    const topicAssignment = Assignment.fromTopic(this.topic);
-    this.assignments.push(topicAssignment);
+    this.assignments.push(this.topic.topicAssignment());
     this.assignments.push(...this.topic.postAssignments());
   }
 
