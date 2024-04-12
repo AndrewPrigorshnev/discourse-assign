@@ -4,6 +4,7 @@ import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import I18n from "I18n";
 import { Assignment } from "../../models/assignment";
+import { popupAjaxError } from "discourse/lib/ajax-error";
 
 export default class EditTopicAssignments extends Component {
   @service taskActions;
@@ -32,13 +33,17 @@ export default class EditTopicAssignments extends Component {
   @action
   async submit() {
     this.args.closeModal();
-    await this.#assign(this.assignments);
+    try {
+      await this.#assign();
+    } catch (error) {
+      popupAjaxError(error);
+    }
   }
 
-  async #assign(assignments) {
-    for (const assignment of assignments) {
+  async #assign() {
+    for (const assignment of this.assignments) {
       if (assignment.isEdited) {
-        await this.taskActions.putAssignment(assignment); // fixme andrei showAjaxError
+        await this.taskActions.putAssignment(assignment);
       }
     }
   }
