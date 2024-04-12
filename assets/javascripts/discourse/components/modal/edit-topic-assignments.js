@@ -11,9 +11,7 @@ export default class EditTopicAssignments extends Component {
 
   constructor() {
     super(...arguments);
-
-    // fixme simplify further
-    this.assignments.push(...this.topic.assignments());
+    this.assignments = this.topic.assignments();
   }
 
   get title() {
