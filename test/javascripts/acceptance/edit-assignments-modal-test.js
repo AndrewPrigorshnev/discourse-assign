@@ -121,7 +121,7 @@ acceptance("Discourse Assign | Edit assignments modal", function (needs) {
 
   // todo remove this function and all calls to it after we start updating UI right away
   // (there is no need to wait for a message bus message in the browser of a user
-  // who did reassignment)
+  // who did reassignment, but we do that at the moment)
   async function receiveAssignedMessage(target, newAssignee) {
     const targetIsAPost = !!target.topic_id;
 
