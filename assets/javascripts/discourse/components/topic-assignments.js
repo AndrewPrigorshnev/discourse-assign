@@ -5,11 +5,10 @@ import { action } from "@ember/object";
 export default class TopicAssignments extends Component {
   @tracked selectedAssignmentId;
   @tracked selectedAssignment;
-  TOPIC_ID = 0; // fixme andrei
 
   constructor() {
     super(...arguments);
-    this.synchronizeAssignment(this.TOPIC_ID); // fixme andrei
+    this.synchronizeAssignment(0); // fixme andrei
   }
 
   get assignmentOptions() {
@@ -20,7 +19,7 @@ export default class TopicAssignments extends Component {
   synchronizeAssignment(selectedAssignmentId) {
     this.selectedAssignmentId = selectedAssignmentId;
     // fixme andrei:
-    if (selectedAssignmentId === this.TOPIC_ID) {
+    if (selectedAssignmentId === 0) {
       this.selectedAssignment = this.args.assignments.find(
         (a) => a.targetType === "Topic"
       );
@@ -33,11 +32,11 @@ export default class TopicAssignments extends Component {
 
   #toComboBoxOption(assignment) {
     if (assignment.targetType === "Topic") {
-      return { id: this.TOPIC_ID, name: "Topic" };
+      return { id: 0, name: "Topic" };
     } else {
       return {
         id: assignment.postNumber,
-        name: `Post #${assignment.postNumber}`, // fixme andrei string
+        name: `Post #${assignment.postNumber}`, // fixme andrei strings
       };
     }
   }
