@@ -1,3 +1,5 @@
+import { Assignment } from "./assignment";
+
 export function extendTopicModel(api, pluginId) {
   api.modifyClass("model:topic", {
     pluginId,
@@ -20,7 +22,6 @@ export function extendTopicModel(api, pluginId) {
       return [...map.values()];
     },
 
-    // fixme andrei rename to postAssignment()
     assignedPosts() {
       if (!this.indirectly_assigned_to) {
         return [];
@@ -29,6 +30,17 @@ export function extendTopicModel(api, pluginId) {
       return Object.entries(this.indirectly_assigned_to).map(([key, value]) => {
         value.postId = key;
         return value;
+      });
+    },
+
+    postAssignments() {
+      if (!this.indirectly_assigned_to) {
+        return [];
+      }
+
+      return Object.entries(this.indirectly_assigned_to).map(([key, value]) => {
+        value.postId = key;
+        return Assignment.fromPost(value);
       });
     },
 
