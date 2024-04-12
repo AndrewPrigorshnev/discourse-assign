@@ -53,7 +53,7 @@ export function extendTopicModel(api, pluginId) {
     },
 
     hasAssignedPosts() {
-      return !!this.assignedPosts().length;
+      return !!this.postAssignments().length;
     },
   });
 }
