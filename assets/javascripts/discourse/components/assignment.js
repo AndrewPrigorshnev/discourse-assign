@@ -58,4 +58,10 @@ export default class Assignment extends Component {
     }
     this.markAsEdited();
   }
+
+  @action
+  setStatus(status) {
+    this.args.assignment.status = status;
+    this.markAsEdited();
+  }
 }

@@ -36,7 +36,7 @@
       @id="assign-status"
       @content={{this.assignStatusOptions}}
       @value={{this.status}}
-      @onChange={{fn (mut @assignment.status)}}
+      @onChange={{this.setStatus}}
     />
   </div>
 {{/if}}
