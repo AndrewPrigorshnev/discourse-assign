@@ -2,9 +2,8 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { inject as service } from "@ember/service";
-import I18n from "I18n";
-import { Assignment } from "../../models/assignment";
 import { popupAjaxError } from "discourse/lib/ajax-error";
+import I18n from "I18n";
 
 export default class EditTopicAssignments extends Component {
   @service taskActions;
@@ -14,8 +13,7 @@ export default class EditTopicAssignments extends Component {
     super(...arguments);
 
     // fixme simplify further
-    this.assignments.push(this.topic.topicAssignment());
-    this.assignments.push(...this.topic.postAssignments());
+    this.assignments.push(...this.topic.assignments());
   }
 
   get title() {

@@ -33,6 +33,10 @@ export function extendTopicModel(api, pluginId) {
       });
     },
 
+    assignments() {
+      return [this.topicAssignment(), ...this.postAssignments()];
+    },
+
     postAssignments() {
       if (!this.indirectly_assigned_to) {
         return [];
