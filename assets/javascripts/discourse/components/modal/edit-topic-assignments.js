@@ -22,8 +22,11 @@ export default class EditTopicAssignments extends Component {
   }
 
   get title() {
-    const title = this.topic.isAssigned() ? "reassign_title" : "title";
-    return I18n.t(`discourse_assign.assign_modal.${title}`);
+    if (this.topic.isAssigned() || this.topic.hasAssignedPosts()) {
+      return I18n.t("edit_assignments_modal.title");
+    } else {
+      return I18n.t("discourse_assign.assign_modal.title");
+    }
   }
 
   get topic() {

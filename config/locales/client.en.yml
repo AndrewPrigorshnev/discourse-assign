@@ -180,5 +180,6 @@ en:
           one: "Assign list - %{count} unread assignment"
           other: "Assign list - %{count} unread assignments"
     edit_assignments_modal:
+      title: "Edit assignments"
       topic: "Topic"
       post: "Post"
