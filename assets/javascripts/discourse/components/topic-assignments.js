@@ -1,6 +1,7 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import I18n from "I18n";
 
 export default class TopicAssignments extends Component {
   @tracked selectedAssignmentId;
@@ -30,13 +31,18 @@ export default class TopicAssignments extends Component {
   }
 
   #toComboBoxOption(assignment) {
-    // fixme andrei strings
+    const topic = I18n.t("edit_assignments_modal.topic");
+    const post = I18n.t("edit_assignments_modal.post");
+
     if (assignment.targetType === "Topic") {
-      return { id: 0, name: "Topic" };
+      return {
+        id: 0,
+        name: topic,
+      };
     } else {
       return {
         id: assignment.postNumber,
-        name: `Post #${assignment.postNumber}`,
+        name: `${post} #${assignment.postNumber}`,
       };
     }
   }
