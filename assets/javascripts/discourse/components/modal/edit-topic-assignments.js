@@ -16,9 +16,7 @@ export default class EditTopicAssignments extends Component {
     // fixme simplify further
     const topicAssignment = Assignment.fromTopic(this.topic);
     this.assignments.push(topicAssignment);
-    this.topic.assignedPosts().forEach((a) => {
-      this.assignments.push(Assignment.fromPost(a));
-    });
+    this.assignments.push(...this.topic.postAssignments());
   }
 
   get title() {
