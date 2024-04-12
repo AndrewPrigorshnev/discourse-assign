@@ -3,26 +3,26 @@ import EmberObject from "@ember/object";
 
 export class Assignment extends EmberObject {
   static fromTopic(topic) {
-    return new Assignment(
-      topic.assigned_to_user?.username,
-      topic.assigned_to_group?.name,
-      topic.assignment_status,
-      topic.assignment_note,
-      topic.id,
-      "Topic"
-    );
+    const assignment = new Assignment();
+    assignment.username = topic.assigned_to_user?.username;
+    assignment.groupName = topic.assigned_to_group?.name;
+    assignment.status = topic.assignment_status;
+    assignment.note = topic.assignment_note;
+    assignment.targetId = topic.id;
+    assignment.targetType = "Topic";
+    return assignment;
   }
 
-  static fromPostAssignment(postAssignment) {
-    return new Assignment(
-      postAssignment.assigned_to.username,
-      postAssignment.assigned_to.name,
-      postAssignment.assignment_status,
-      postAssignment.assignment_note,
-      postAssignment.postId,
-      "Post",
-      postAssignment.post_number
-    );
+  static fromPost(post) {
+    const assignment = new Assignment();
+    assignment.username = post.assigned_to.username;
+    assignment.groupName = post.assigned_to.name;
+    assignment.status = post.assignment_status;
+    assignment.note = post.assignment_note;
+    assignment.targetId = post.postId;
+    assignment.targetType = "Post";
+    assignment.postNumber = post.post_number;
+    return assignment;
   }
 
   // to-do rename to groupName, some components use both this model
@@ -34,23 +34,4 @@ export class Assignment extends EmberObject {
   targetId;
   targetType;
   postNumber;
-
-  constructor(
-    username,
-    groupName,
-    status,
-    note,
-    targetId,
-    targetType,
-    postNumber
-  ) {
-    super();
-    this.username = username;
-    this.group_name = groupName;
-    this.status = status;
-    this.note = note;
-    this.targetId = targetId;
-    this.targetType = targetType;
-    this.postNumber = postNumber;
-  }
 }
